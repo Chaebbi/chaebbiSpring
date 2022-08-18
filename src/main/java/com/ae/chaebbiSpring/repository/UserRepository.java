@@ -36,15 +36,15 @@ public class UserRepository {
     }
 
     public void signup(Long id, SignupRequestDto dto) {
-        int age = dto.getAge();
-        int gender = dto.getGender();
+        int age = Integer.parseInt(dto.getAge());
+        int gender = Integer.parseInt(dto.getGender());
         String name = dto.getName();
         String weight = dto.getWeight();
         String height = dto.getHeight();
-        int activity = dto.getActivity();
+        int activity = Integer.parseInt(dto.getActivity());
         int icon = (int)(Math.random() * 13);
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
-        CalcRequestDto calcRequestDto = new CalcRequestDto(dto.getName(), dto.getAge(),dto.getGender(), dto.getHeight(), dto.getWeight(), dto.getActivity());
+        CalcRequestDto calcRequestDto = new CalcRequestDto(dto.getName(), age, gender, dto.getHeight(), dto.getWeight(), activity);
         CalcNutrientDtos calcNutrientDtos = CalcNutrients.calcNutrientDtos(calcRequestDto);
 
         em.createQuery("update User u set u.name = :name, u.age = :age, u.gender = :gender, u.height = :height, u.weight = :weight," +
