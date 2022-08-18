@@ -13,11 +13,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //모든 경로에 대해
         registry.addMapping("/**")
                 //Orgin이 http:localhost:3000에 대해
-                .allowedOrigins("http://127.0.0.1:5500")
+                .allowedOriginPatterns("http://127.0.0.1:5500")
                 //GET, POST, PUT,  메소드를 허용한다.
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
 
     }
