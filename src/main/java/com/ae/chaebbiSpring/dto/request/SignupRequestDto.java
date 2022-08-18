@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignupRequestDto {
     private String name;
-    private int age;
-    private int gender;
+    private String age;
+    private String gender;
     private String height;
     private String weight;
-    private int activity;
+    private String activity;
 }
