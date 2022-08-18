@@ -103,9 +103,9 @@ public class RecordApiController {
     @PostMapping("api/detailrecord")
     public ResultResponse recordResponse(@AuthenticationPrincipal String userId, @RequestBody @Valid DetailRecordRequestDto request) {
         List<Record> findDetailRecord = recordService.findDetailOne(Long.valueOf(userId), Long.valueOf(request.getRecord_id()));
-
+        String name = userService.findOne(Long.valueOf(userId)).getName();
         List<DetailRecordResponseDto> collect = findDetailRecord.stream()
-                .map(m -> new DetailRecordResponseDto(m.getText(), m.getCal(), m.getCarb(), m.getProtein(), m.getFat(), m.getImage_url(), m.getDate(), m.getTime(), m.getAmount()))
+                .map(m -> new DetailRecordResponseDto(name, m.getText(), m.getCal(), m.getCarb(), m.getProtein(), m.getFat(), m.getImage_url(), m.getDate(), m.getTime(), m.getAmount()))
                 .collect(toList());
         return new ResultResponse(collect);
 

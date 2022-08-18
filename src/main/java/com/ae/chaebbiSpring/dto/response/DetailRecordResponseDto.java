@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DetailRecordResponseDto {
+    private String name;
     private String text;
     private String cal;
     private String carb;
