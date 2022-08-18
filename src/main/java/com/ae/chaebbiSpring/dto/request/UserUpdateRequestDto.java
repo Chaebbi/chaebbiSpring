@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateRequestDto {
-    private int age;
+    private String age;
     private String height;
     private String weight;
-    private int activity;
+    private String activity;
 }
