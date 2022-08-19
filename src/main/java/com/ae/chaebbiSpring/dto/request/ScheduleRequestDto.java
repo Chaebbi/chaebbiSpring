@@ -9,8 +9,8 @@ public class ScheduleRequestDto {
     private String title;
     private String wide;
     private String middle;
-    private String sDate;
-    private String eDate;
-    private String sTime;
-    private String eTime;
+    private String sdate;
+    private String edate;
+    private String stime;
+    private String etime;
 }

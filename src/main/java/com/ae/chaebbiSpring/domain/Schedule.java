@@ -22,13 +22,13 @@ public class Schedule {
     private String middle;
 
     @Column(name = "start_date")
-    private String sDate;
+    private String sdate;
     @Column(name = "end_date")
-    private String eDate;
+    private String edate;
     @Column(name = "start_time")
-    private String sTime;
+    private String stime;
     @Column(name = "end_time")
-    private String eTime;
+    private String etime;
 
     @Column(name ="user_id")
     private int uId;
@@ -38,10 +38,10 @@ public class Schedule {
         schedule.setTitle(scheduleRequestDto.getTitle());
         schedule.setWide(scheduleRequestDto.getWide());
         schedule.setMiddle(scheduleRequestDto.getMiddle());
-        schedule.setSDate(scheduleRequestDto.getSDate());
-        schedule.setEDate(scheduleRequestDto.getEDate());
-        schedule.setSTime(scheduleRequestDto.getSTime());
-        schedule.setETime(scheduleRequestDto.getETime());
+        schedule.setSdate(scheduleRequestDto.getSdate());
+        schedule.setEdate(scheduleRequestDto.getEdate());
+        schedule.setStime(scheduleRequestDto.getStime());
+        schedule.setEtime(scheduleRequestDto.getEtime());
         schedule.setUId(Integer.parseInt(userId));
         return schedule;
     }
