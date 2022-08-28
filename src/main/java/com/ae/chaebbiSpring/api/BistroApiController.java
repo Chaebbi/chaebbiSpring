@@ -87,5 +87,16 @@ public class BistroApiController {
         return new ResultResponse(bistroDtos);
     }
 
+    //6-4
+    @GetMapping("api/bistrowide")
+    public ResultResponse middle(@AuthenticationPrincipal String userId) {
+        List<Bistro> bistros = bistroService.getWide();
+        List<String> wides = new ArrayList<>();
+
+        for(Bistro bistro : bistros) {
+            wides.add(bistro.getWide());
+        }
+        return new ResultResponse(wides);
+    }
 
 }

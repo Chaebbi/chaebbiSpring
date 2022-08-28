@@ -33,4 +33,7 @@ public class BistroService {
     }
 
 
+    public List<Bistro> getWide() {
+        return bistroRepository.getWide();
+    }
 }
