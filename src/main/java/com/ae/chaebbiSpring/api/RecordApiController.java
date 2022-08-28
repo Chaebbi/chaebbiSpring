@@ -30,7 +30,7 @@ public class RecordApiController {
     private final UserService userService;
     private final S3Uploader s3Uploader;
 
-        //1-1
+    //1-1
     @PostMapping(value = "/api/record", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public RecordResponseDto createRecord(@AuthenticationPrincipal String userId,
                                           @RequestParam (value = "image", required = false) MultipartFile multipartFile,
@@ -46,21 +46,13 @@ public class RecordApiController {
                                              ) throws IOException {
         User user = userService.findOne(Long.valueOf(userId));
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
-        if(!multipartFile.isEmpty()){
-            //S3 Bucket upload
-            String img_url = s3Uploader.upload(multipartFile, "static");
-            Record record = Record.createRecord(img_url, text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
-            Long id = recordService.record(record);
-            return new RecordResponseDto(id.intValue());
-        }
-        else {
-            Record record = Record.createRecordnoImg(text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
-            Long id = recordService.record(record);
-            return new RecordResponseDto(id.intValue());
-        }
+        //S3 Bucket upload
+        String img_url = s3Uploader.upload(multipartFile, "static");
+        Record record = Record.createRecord(img_url, text, date, calory, carb, protein, fat,
+                rdate, rtime, amount, meal, user);
+        Long id = recordService.record(record);
 
-
-
+        return new RecordResponseDto(id.intValue());
     }
 
     //1-2
@@ -115,6 +107,28 @@ public class RecordApiController {
                 .collect(toList());
         return new ResultResponse(collect);
 
+    }
+
+    //1-4
+    @PostMapping("api/record-no-img")
+    public RecordResponseDto createRecord(@AuthenticationPrincipal String userId,
+                                          @RequestParam (value = "text", required = true) String text,
+                                          @RequestParam (value = "calory", required = false) String calory,
+                                          @RequestParam (value = "carb", required = false) String carb,
+                                          @RequestParam (value = "protein", required = false) String protein,
+                                          @RequestParam (value = "fat", required = false) String fat,
+                                          @RequestParam (value = "rdate", required = true) String rdate,
+                                          @RequestParam (value = "rtime", required = true) String rtime,
+                                          @RequestParam (value = "amount", required = false) Double amount,
+                                          @RequestParam (value = "meal", required = true) int meal
+    ) throws IOException {
+        User user = userService.findOne(Long.valueOf(userId));
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
+
+        Record record = Record.createRecordnoImg(text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
+        Long id = recordService.record(record);
+
+        return new RecordResponseDto(id.intValue());
     }
 
 }
