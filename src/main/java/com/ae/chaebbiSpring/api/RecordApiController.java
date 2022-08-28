@@ -125,7 +125,7 @@ public class RecordApiController {
         User user = userService.findOne(Long.valueOf(userId));
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
 
-        Record record = Record.createRecordnoImg(text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
+        Record record = Record.createRecord(null, text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
         Long id = recordService.record(record);
 
         return new RecordResponseDto(id.intValue());
