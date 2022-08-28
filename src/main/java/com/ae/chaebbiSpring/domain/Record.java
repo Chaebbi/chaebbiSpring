@@ -61,4 +61,20 @@ public class Record {
         record.setMeal(meal);
         return record;
     }
+    public static Record createRecordnoImg(String text, String date, String cal, String carb, String protein, String fat, String rdate, String rtime,
+                                      Double amount, int meal, User user) {
+        Record record = new Record();
+        record.setText(text);
+        record.setServer_date(date);
+        record.setCal(cal);
+        record.setCarb(carb);
+        record.setProtein(protein);
+        record.setFat(fat);
+        record.setDate(rdate);
+        record.setTime(rtime);
+        record.setAmount(amount);
+        record.setUser(user);
+        record.setMeal(meal);
+        return record;
+    }
 }

@@ -46,15 +46,21 @@ public class RecordApiController {
                                              ) throws IOException {
         User user = userService.findOne(Long.valueOf(userId));
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
-        //S3 Bucket upload
-        String img_url = s3Uploader.upload(multipartFile, "static");
+        if(!multipartFile.isEmpty()){
+            //S3 Bucket upload
+            String img_url = s3Uploader.upload(multipartFile, "static");
+            Record record = Record.createRecord(img_url, text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
+            Long id = recordService.record(record);
+            return new RecordResponseDto(id.intValue());
+        }
+        else {
+            Record record = Record.createRecordnoImg(text, date, calory, carb, protein, fat, rdate, rtime, amount, meal, user);
+            Long id = recordService.record(record);
+            return new RecordResponseDto(id.intValue());
+        }
 
-        Long id = null;
-        Record record = Record.createRecord(img_url, text, date, calory, carb, protein, fat,
-                rdate, rtime, amount, meal, user);
-        id = recordService.record(record);
 
-        return new RecordResponseDto(id.intValue());
+
     }
 
     //1-2
