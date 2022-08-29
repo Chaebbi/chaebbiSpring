@@ -61,4 +61,5 @@ public class Record {
         record.setMeal(meal);
         return record;
     }
+
 }

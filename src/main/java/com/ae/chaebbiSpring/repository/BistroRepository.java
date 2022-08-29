@@ -38,4 +38,9 @@ public class BistroRepository {
         return em.createQuery("select b from Bistro b", Bistro.class)
                 .getResultList();
     }
+
+    public List<Bistro> getWide() {
+        return em.createQuery("select b from Bistro b group by b.wide")
+                .getResultList();
+    }
 }
