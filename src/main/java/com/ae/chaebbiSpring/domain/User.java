@@ -1,5 +1,6 @@
 package com.ae.chaebbiSpring.domain;
 
+import com.ae.chaebbiSpring.dto.request.CreateUserRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String pwd;
     private int gender;
     private int age;
     private String height;
@@ -49,6 +51,19 @@ public class User {
     public static User createUser(String kakao) {
         User user = new User();
         user.setKakao(kakao);
+        return user;
+    }
+
+    public static User createUser(CreateUserRequestDto createUserRequestDto) {
+        User user = new User();
+        user.setEmail(createUserRequestDto.getEmail());
+        user.setPwd(createUserRequestDto.getPwd());
+        user.setName(createUserRequestDto.getName());
+        user.setGender(createUserRequestDto.getGender());
+        user.setAge(createUserRequestDto.getAge());
+        user.setHeight(createUserRequestDto.getHeight());
+        user.setWeight(createUserRequestDto.getWeight());
+        user.setActivity(createUserRequestDto.getActivity());
         return user;
     }
 }

@@ -1,12 +1,11 @@
 package com.ae.chaebbiSpring.api;
 
+import com.ae.chaebbiSpring.config.BaseException;
+import com.ae.chaebbiSpring.config.BaseResponse;
 import com.ae.chaebbiSpring.config.security.JwtProvider;
 import com.ae.chaebbiSpring.domain.User;
-import com.ae.chaebbiSpring.dto.request.SignupRequestDto;
-import com.ae.chaebbiSpring.dto.request.UserSocialLoginRequestDto;
-import com.ae.chaebbiSpring.dto.request.UserUpdateRequestDto;
-import com.ae.chaebbiSpring.dto.response.LoginResponseDto;
-import com.ae.chaebbiSpring.dto.response.UserInfoResponseDto;
+import com.ae.chaebbiSpring.dto.request.*;
+import com.ae.chaebbiSpring.dto.response.*;
 import com.ae.chaebbiSpring.service.UserService;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
@@ -93,6 +94,30 @@ public class UserApiController {
     public ResponseEntity<?> update(@AuthenticationPrincipal String userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         userService.update(Long.valueOf(userId), userUpdateRequestDto);
         return ResponseEntity.ok().build();
+    }
+
+    // 11-1 : [POST] 회원가입 api
+    @PostMapping("api/create-user")
+    public JoinResponseDto createUser(@RequestBody CreateUserRequestDto createUserRequestDto){
+        JoinResponseDto joinResponseDto = userService.join(createUserRequestDto);
+        return joinResponseDto;
+    }
+
+    // 11-2 :[POST] 이메일 중복확인 api
+    @PostMapping("api/email-check")
+    public CheckEmailRes checkEmail(@RequestBody CheckEmailReq checkEmailReq) {
+        return userService.checkEmailDuplicate(checkEmailReq);
+
+    }
+
+    // 11-3 : [POST] 로그인 api
+    @PostMapping("api/user-login")
+    public BaseResponse<GeneralLoginResDto> generalLogin(@RequestBody GeneralLoginReqDto loginReqDto){
+        try {
+            return new BaseResponse<>(userService.generalLogin(loginReqDto));
+        }catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 
 

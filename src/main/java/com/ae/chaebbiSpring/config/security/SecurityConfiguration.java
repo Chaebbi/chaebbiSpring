@@ -29,8 +29,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/create-user").permitAll()
+                .antMatchers("/api/email-check").permitAll()
+                .antMatchers("/api/user-login").permitAll()
                 .anyRequest().authenticated();
-
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
     }
 }
