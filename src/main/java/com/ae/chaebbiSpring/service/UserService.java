@@ -84,7 +84,7 @@ public class UserService {
         if(!user.isEmpty()){
             String pwd = user.get().getPwd();
             if(loginReqDto.getPwd().equals(pwd)){
-                return new GeneralLoginResDto("active",user.get().getId(), jwtProvider.createToken(user.get()));
+                return new GeneralLoginResDto(user.get().getId(), jwtProvider.createToken(user.get()));
             }
             else{
                 throw new BaseException(FAILED_TO_LOGIN_PWD);

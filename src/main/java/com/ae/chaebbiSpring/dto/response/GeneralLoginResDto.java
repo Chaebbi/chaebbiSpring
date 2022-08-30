@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class GeneralLoginResDto {
     @NotNull
-    private String status;
-    @NotNull
     private Long userId;
     @NotNull
     private String token;
