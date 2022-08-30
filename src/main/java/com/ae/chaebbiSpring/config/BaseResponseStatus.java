@@ -3,20 +3,20 @@ package com.ae.chaebbiSpring.config;
 import lombok.Getter;
 
 /**
- * 에러 코드 관리
+ *에러 코드 관리
  */
 @Getter
 public enum BaseResponseStatus {
     /**
-     * 1000 : 요청 성공
+     * 1000 :요청 성공
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
 
 
     /**
-     * 2000 : Request 오류
+     * 2000 : Request오류
      */
-    // Common
+// Common
     REQUEST_ERROR(false, 2000, "입력값을 확인해주세요."),
     EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
     INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
@@ -52,10 +52,45 @@ public enum BaseResponseStatus {
     POST_RECORD_NO_ID(false, 2118, "조회하고 싶은 기록 id를 입력해주세요."),
     POST_RECORD_NO_RECORD_DATA(false, 2119, "해당하는 기록이 없습니다."),
 
+
+    // [POST] /food
+    POST_FOOD_NO_ID(false, 2120, "조회하고 싶은 음식 id를 입력해주세요."),
+
+    // [PUT] /userupdate
+    PUT_USER_NO_AGE(false, 2121, "나이를 입력해주세요."),
+    PUT_USER_MINUS_AGE(false, 2122, "나이가 1보다 작습니다."),
+    PUT_USER_NO_HEIGHT(false, 2123, "키를 입력해주세요."),
+    PUT_USER_MINUS_HEIGHT(false, 2124, "키가 0보다 작습니다."),
+    PUT_USER_NO_WEIGHT(false, 2125, "몸무게를 입력해주세요."),
+    PUT_USER_MINUS_WEIGHT(false, 2126, "몸무게가 0보다 작습니다."),
+    PUT_USER_NO_ACTIVITY(false, 2127, "활동 점수를 입력해주세요."),
+    PUT_USER_INVALID_ACTIVITY(false, 2128, "활동 점수가 유효하지 않습니다."),
+
+    // [POST] /signup
+    POST_USER_NO_NAME(false, 2129, "이름을 입력해주세요."),
+    POST_USER_LONG_NAME(false, 2130, "이름이 45자보다 깁니다."),
+    POST_USER_NO_AGE(false, 2131, "나이를 입력해주세요."),
+    POST_USER_MINUS_AGE(false, 2132, "나이가 1보다 작습니다."),
+    POST_USER_NO_GENDER(false, 2133, "성별을 입력해주세요."),
+    POST_USER_INVALID_GENDER(false, 2134, "성별이 유효하지 않습니다."),
+    POST_USER_NO_HEIGHT(false, 2135, "키를 입력해주세요."),
+    POST_USER_MINUS_HEIGHT(false, 2136, "키가 0보다 작습니다."),
+    POST_USER_NO_WEIGHT(false, 2137, "몸무게를 입력해주세요."),
+    POST_USER_MINUS_WEIGHT(false, 2138, "몸무게가 0보다 작습니다."),
+    POST_USER_NO_ACTIVITY(false, 2139, "활동 점수를 입력해주세요."),
+    POST_USER_INVALID_ACTIVITY(false, 2140, "활동 점수가 유효하지 않습니다."),
+
+    // [POST] /login
+    POST_USER_NO_TOKEN(false, 2141, "accessToken을 입력해주세요."),
+
+    // [POST] /bistro
+    POST_BISTRO_NO_WIDE(false, 2142, "wide를 입력해주세요."),
+    POST_BISTRO_NO_MIDDLE(false, 2143, "middle을 입력해주세요."),
+
     /**
-     * 3000 : Response 오류
+     * 3000 : Response오류
      */
-    // Common
+// Common
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
     // [POST] /users
@@ -65,7 +100,7 @@ public enum BaseResponseStatus {
 
 
     /**
-     * 4000 : Database, Server 오류
+     * 4000 : Database, Server오류
      */
     DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
