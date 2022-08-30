@@ -2,9 +2,7 @@ package com.ae.chaebbiSpring.repository;
 
 import com.ae.chaebbiSpring.domain.User;
 import com.ae.chaebbiSpring.dto.CalcNutrientDtos;
-import com.ae.chaebbiSpring.dto.request.CalcRequestDto;
-import com.ae.chaebbiSpring.dto.request.SignupRequestDto;
-import com.ae.chaebbiSpring.dto.request.UserUpdateRequestDto;
+import com.ae.chaebbiSpring.dto.request.*;
 import com.ae.chaebbiSpring.utils.CalcNutrients;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -87,5 +85,19 @@ public class UserRepository {
                 .setParameter("fat", calcNutrientDtos.getRfat())
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    public Long checkEmailDuplicate(CheckEmailReq checkEmailReq) {
+        return (Long) em.createQuery("select count(u.id) from User u where u.email = :email")
+                .setParameter("email", checkEmailReq.getEmail())
+                .getSingleResult();
+
+
+    }
+    public Optional<User> findByEmail(String email) {
+        List<User> user = em.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+        return user.stream().findAny();
     }
 }
