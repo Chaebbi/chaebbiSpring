@@ -32,6 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/create-user").permitAll()
                 .antMatchers("/api/email-check").permitAll()
                 .antMatchers("/api/user-login").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
     }
