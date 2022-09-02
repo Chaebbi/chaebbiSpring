@@ -87,6 +87,12 @@ public enum BaseResponseStatus {
     POST_BISTRO_NO_WIDE(false, 2142, "wide를 입력해주세요."),
     POST_BISTRO_NO_MIDDLE(false, 2143, "middle을 입력해주세요."),
 
+    // [POST] / bookmark
+    POST_BOOKMARK_NO_BISTRO_ID(false, 2144, "bistro_id를 입력해주세요. "),
+    POST_BOOKMARK_PRESENT_BISTRO(false, 2145, "이미 북마크한 bistro입니다. "),
+    POST_BOOKMARK_LIST_EMPTY(false, 2146, "북마크한 식당이 없습니다"),
+    POST_BOOMARK_THERE_NO_BISTRO(false, 2147, "북마크 한적 없는 식당을 북마크 해제 하고있습니다"),
+
     /**
      * 3000 : Response오류
      */

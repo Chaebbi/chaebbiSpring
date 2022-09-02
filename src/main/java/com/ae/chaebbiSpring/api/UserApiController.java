@@ -87,7 +87,7 @@ public class UserApiController {
         }
     }
 
-    // 3-2
+    // 3-3
     @PostMapping("/api/signup")
     public BaseResponse<ResponseEntity<?>> signup(@AuthenticationPrincipal String userId, @RequestBody SignupRequestDto signupRequestDto) {
         if(userId == null) {
