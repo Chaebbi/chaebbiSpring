@@ -87,9 +87,9 @@ public class UserRepository {
                 .executeUpdate();
     }
 
-    public Long checkEmailDuplicate(CheckEmailReq checkEmailReq) {
+    public Long checkEmailDuplicate(String checkEmailReq) {
         return (Long) em.createQuery("select count(u.id) from User u where u.email = :email")
-                .setParameter("email", checkEmailReq.getEmail())
+                .setParameter("email", checkEmailReq)
                 .getSingleResult();
 
 
