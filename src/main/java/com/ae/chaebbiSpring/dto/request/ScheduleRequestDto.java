@@ -13,9 +13,6 @@ public class ScheduleRequestDto {
     private String middle;
     private String sdate;
     private String edate;
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    //@DateTimeFormat(pattern = "HH:mm:ss")
     private String stime;
-    //@DateTimeFormat(pattern = "HH:mm:ss")
     private String etime;
 }

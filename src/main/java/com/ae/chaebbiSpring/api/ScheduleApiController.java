@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -59,13 +60,13 @@ public class ScheduleApiController {
             e.printStackTrace();
             return new BaseResponse<>(PUT_SCHEDULE_INVALID_DATE);
         }
-        /*try{
-            LocalDate.from(LocalDate.parse(scheduleRequestDto.getStime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
-            LocalDate.from(LocalDate.parse(scheduleRequestDto.getEtime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
+        try{
+            LocalTime.from(LocalTime.parse(scheduleRequestDto.getStime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
+            LocalTime.from(LocalTime.parse(scheduleRequestDto.getEtime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
         }catch (DateTimeParseException e) {
             e.printStackTrace();
             return new BaseResponse<>(PUT_SCHEDULE_INVALID_TIME);
-        }*/
+        }
 
 
         Schedule schedule = Schedule.createSchedule(userId, scheduleRequestDto);
