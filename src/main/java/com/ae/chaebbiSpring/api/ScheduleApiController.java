@@ -6,6 +6,9 @@ import com.ae.chaebbiSpring.dto.request.ScheduleRequestDto;
 import com.ae.chaebbiSpring.dto.response.CreateScheduleResponseDto;
 import com.ae.chaebbiSpring.service.ScheduleService;
 import com.ae.chaebbiSpring.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +23,15 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import static com.ae.chaebbiSpring.config.BaseResponseStatus.*;
+@Api(tags = "Schedule API", description = "일정 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class ScheduleApiController {
     private final ScheduleService scheduleService;
     private final UserService userService;
 
+    //10-1
+    @Operation(summary = "[POST] 10-1 일정 등록", description = "일정 등록 API")
     @PostMapping("/api/schedule")
     public BaseResponse<CreateScheduleResponseDto> createSchedule(@AuthenticationPrincipal String userId, @RequestBody @Valid ScheduleRequestDto scheduleRequestDto) {
         if(userId == null) {
