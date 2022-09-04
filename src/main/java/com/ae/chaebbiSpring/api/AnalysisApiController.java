@@ -9,6 +9,8 @@ import com.ae.chaebbiSpring.dto.DateAnalysisDto;
 import com.ae.chaebbiSpring.service.AnalysisService;
 import com.ae.chaebbiSpring.service.RecordService;
 import com.ae.chaebbiSpring.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import static com.ae.chaebbiSpring.config.BaseResponseStatus.INVALID_JWT;
 import static java.lang.Integer.valueOf;
 import static java.util.stream.Collectors.toList;
 
+@Api(tags = "Analysis API", description = "분석 API")
 @RestController
 @RequiredArgsConstructor
 public class AnalysisApiController {
@@ -32,6 +35,7 @@ public class AnalysisApiController {
     private final UserService userService;
 
     //5-1
+    @Operation(summary = "식단 분석", description = "식단 분석 API")
     @GetMapping("api/analysis")
     public BaseResponse<AnalysisResponseDto> analysisResponse(@AuthenticationPrincipal String userId) {
         if(userId == null) {
