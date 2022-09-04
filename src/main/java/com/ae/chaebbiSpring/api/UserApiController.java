@@ -8,6 +8,8 @@ import com.ae.chaebbiSpring.dto.request.*;
 import com.ae.chaebbiSpring.dto.response.*;
 import com.ae.chaebbiSpring.service.UserService;
 import com.nimbusds.jose.shaded.json.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +30,7 @@ import java.util.Optional;
 
 import static com.ae.chaebbiSpring.config.BaseResponseStatus.*;
 
+@Api(tags = "User API", description = "사용자 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class UserApiController {
@@ -37,6 +40,7 @@ public class UserApiController {
 
     // 4-1
     // 로그인 시에, kakaoprofile로 받은 정보가 db에 있으면 jwt 토큰 발급(status코드는 온보딩 안띄우게). db에 없으면 new user로 저장시키고 jwt 토큰발급(온보딩 띄우게)
+    @Operation(summary = "카카오 로그인", description = "카카오 로그인 API")
     @PostMapping("/api/login")
     public BaseResponse<LoginResponseDto> loginByKakao(
             @RequestBody UserSocialLoginRequestDto socialLoginRequestDto) {
@@ -84,6 +88,7 @@ public class UserApiController {
     }
 
     // 3-3
+    @Operation(summary = "카카오 회원 등록", description = "카카오 회원 등록 API")
     @PostMapping("/api/signup")
     public BaseResponse<ResponseEntity<?>> signup(@AuthenticationPrincipal String userId, @RequestBody SignupRequestDto signupRequestDto) {
         if(userId == null) {
@@ -149,6 +154,7 @@ public class UserApiController {
     }
 
     // 3-1
+    @Operation(summary = "회원 정보 조회", description = "회원 정보 조회 API")
     @GetMapping("/api/userinfo")
     public BaseResponse<UserInfoResponseDto> info(@AuthenticationPrincipal String userId) {
         if(userId == null) {
@@ -162,6 +168,7 @@ public class UserApiController {
     }
 
     // 3-2
+    @Operation(summary = "회원 정보 수정", description = "회원 정보 수정 API")
     @PutMapping("/api/userupdate")
     public BaseResponse<ResponseEntity<?>> update(@AuthenticationPrincipal String userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         if(userId == null) {
