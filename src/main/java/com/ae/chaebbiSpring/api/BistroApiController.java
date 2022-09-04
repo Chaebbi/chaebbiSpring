@@ -47,10 +47,7 @@ public class BistroApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(request.getWide().isEmpty()) {
-            return new BaseResponse<>(POST_BISTRO_NO_WIDE);
-        }
-        if(request.getWide().equals("")) {
+        if(request.getWide().isEmpty() || request.getWide().equals("")) {
             return new BaseResponse<>(POST_BISTRO_NO_WIDE);
         }
 
@@ -74,17 +71,11 @@ public class BistroApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(request.getWide().isEmpty()) {
-            return new BaseResponse<>(POST_BISTRO_NO_WIDE);
-        }
-        if(request.getWide().equals("")) {
+        if(request.getWide().isEmpty() || request.getWide().equals("")) {
             return new BaseResponse<>(POST_BISTRO_NO_WIDE);
         }
 
-        if(request.getMiddle().isEmpty()) {
-            return new BaseResponse<>(POST_BISTRO_NO_MIDDLE);
-        }
-        if(request.getMiddle().equals("")) {
+        if(request.getMiddle().isEmpty() || request.getMiddle().equals("")) {
             return new BaseResponse<>(POST_BISTRO_NO_MIDDLE);
         }
 
