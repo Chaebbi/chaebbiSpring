@@ -41,9 +41,7 @@ public class UserApiController {
     public BaseResponse<LoginResponseDto> loginByKakao(
             @RequestBody UserSocialLoginRequestDto socialLoginRequestDto) {
         String token = socialLoginRequestDto.getAccessToken();
-        if(token.isEmpty()) {
-            return new BaseResponse<>(POST_USER_NO_TOKEN);
-        }
+
         if((token.equals(""))) {
             return new BaseResponse<>(POST_USER_NO_TOKEN);
         }
@@ -96,40 +94,31 @@ public class UserApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(signupRequestDto.getName().isEmpty()) {
+        if(signupRequestDto.getName().isEmpty() || signupRequestDto.getName().equals("")) {
             return new BaseResponse<>(POST_USER_NO_NAME);
         }
-        if((signupRequestDto.getName().equals(""))) {
-            return new BaseResponse<>(POST_USER_NO_NAME);
-        }
+
         if(signupRequestDto.getName().length() > 45) {
             return new BaseResponse<>(POST_USER_LONG_NAME);
         }
 
-        if(signupRequestDto.getAge().isEmpty()) {
+        if(signupRequestDto.getAge().isEmpty() || signupRequestDto.getAge().equals("")) {
             return new BaseResponse<>(POST_USER_NO_AGE);
         }
-        if((signupRequestDto.getAge().equals(""))) {
-            return new BaseResponse<>(POST_USER_NO_AGE);
-        }
+
         if(Integer.valueOf(signupRequestDto.getAge()) < 1) {
             return new BaseResponse<>(POST_USER_MINUS_AGE);
         }
 
-        if(signupRequestDto.getGender().isEmpty()) {
+        if(signupRequestDto.getGender().isEmpty() || signupRequestDto.getGender().equals("")) {
             return new BaseResponse<>(POST_USER_NO_GENDER);
         }
-        if((signupRequestDto.getGender().equals(""))) {
-            return new BaseResponse<>(POST_USER_NO_GENDER);
-        }
-        if(Integer.valueOf(signupRequestDto.getGender()) != 0 || Integer.valueOf(signupRequestDto.getGender()) != 1) {
+
+        if(Integer.valueOf(signupRequestDto.getGender()) != 0 && Integer.valueOf(signupRequestDto.getGender()) != 1) {
             return new BaseResponse<>(POST_USER_INVALID_GENDER);
         }
 
-        if(signupRequestDto.getHeight().isEmpty()) {
-            return new BaseResponse<>(POST_USER_NO_HEIGHT);
-        }
-        if(signupRequestDto.getHeight().equals("")) {
+        if(signupRequestDto.getHeight().isEmpty() || signupRequestDto.getHeight().equals("")) {
             return new BaseResponse<>(POST_USER_NO_HEIGHT);
         }
 
@@ -137,10 +126,7 @@ public class UserApiController {
             return new BaseResponse<>(POST_USER_MINUS_HEIGHT);
         }
 
-        if(signupRequestDto.getWeight().isEmpty()) {
-            return new BaseResponse<>(POST_USER_NO_WEIGHT);
-        }
-        if(signupRequestDto.getWeight().equals("")) {
+        if(signupRequestDto.getWeight().isEmpty() || signupRequestDto.getWeight().equals("")) {
             return new BaseResponse<>(POST_USER_NO_WEIGHT);
         }
 
@@ -148,14 +134,11 @@ public class UserApiController {
             return new BaseResponse<>(POST_USER_MINUS_WEIGHT);
         }
 
-        if(signupRequestDto.getActivity().isEmpty()) {
-            return new BaseResponse<>(POST_USER_NO_ACTIVITY);
-        }
-        if(signupRequestDto.getActivity().equals("")) {
+        if(signupRequestDto.getActivity().isEmpty() || signupRequestDto.getActivity().equals("")) {
             return new BaseResponse<>(POST_USER_NO_ACTIVITY);
         }
 
-        if(Integer.valueOf(signupRequestDto.getActivity()) != 25 || Integer.valueOf(signupRequestDto.getActivity()) != 33 || Integer.valueOf(signupRequestDto.getActivity()) != 40) {
+        if(Integer.valueOf(signupRequestDto.getActivity()) != 25 && Integer.valueOf(signupRequestDto.getActivity()) != 33 && Integer.valueOf(signupRequestDto.getActivity()) != 40) {
             return new BaseResponse<>(POST_USER_INVALID_ACTIVITY);
         }
 
@@ -189,21 +172,16 @@ public class UserApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(userUpdateRequestDto.getAge().isEmpty()) {
+        if(userUpdateRequestDto.getAge().isEmpty() || userUpdateRequestDto.getAge().equals("")) {
             return new BaseResponse<>(PUT_USER_NO_AGE);
         }
-        if(userUpdateRequestDto.getAge().equals("")) {
-            return new BaseResponse<>(PUT_USER_NO_AGE);
-        }
+
 
         if(Integer.valueOf(userUpdateRequestDto.getAge()) < 1) {
             return new BaseResponse<>(PUT_USER_MINUS_AGE);
         }
 
-        if(userUpdateRequestDto.getHeight().isEmpty()) {
-            return new BaseResponse<>(PUT_USER_NO_HEIGHT);
-        }
-        if(userUpdateRequestDto.getHeight().equals("")) {
+        if(userUpdateRequestDto.getHeight().isEmpty() || userUpdateRequestDto.getHeight().equals("")) {
             return new BaseResponse<>(PUT_USER_NO_HEIGHT);
         }
 
@@ -211,10 +189,7 @@ public class UserApiController {
             return new BaseResponse<>(PUT_USER_MINUS_HEIGHT);
         }
 
-        if(userUpdateRequestDto.getWeight().isEmpty()) {
-            return new BaseResponse<>(PUT_USER_NO_WEIGHT);
-        }
-        if(userUpdateRequestDto.getWeight().equals("")) {
+        if(userUpdateRequestDto.getWeight().isEmpty() || userUpdateRequestDto.getWeight().equals("")) {
             return new BaseResponse<>(PUT_USER_NO_WEIGHT);
         }
 
@@ -222,14 +197,11 @@ public class UserApiController {
             return new BaseResponse<>(PUT_USER_MINUS_WEIGHT);
         }
 
-        if(userUpdateRequestDto.getActivity().isEmpty()) {
-            return new BaseResponse<>(PUT_USER_NO_ACTIVITY);
-        }
-        if(userUpdateRequestDto.getActivity().equals("")) {
+        if(userUpdateRequestDto.getActivity().isEmpty() || userUpdateRequestDto.getActivity().equals("")) {
             return new BaseResponse<>(PUT_USER_NO_ACTIVITY);
         }
 
-        if(Integer.valueOf(userUpdateRequestDto.getActivity()) != 25 || Integer.valueOf(userUpdateRequestDto.getActivity()) != 33 || Integer.valueOf(userUpdateRequestDto.getActivity()) != 40) {
+        if(Integer.valueOf(userUpdateRequestDto.getActivity()) != 25 && Integer.valueOf(userUpdateRequestDto.getActivity()) != 33 && Integer.valueOf(userUpdateRequestDto.getActivity()) != 40) {
             return new BaseResponse<>(PUT_USER_INVALID_ACTIVITY);
         }
 
