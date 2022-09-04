@@ -12,6 +12,8 @@ import com.ae.chaebbiSpring.dto.response.ResultResponse;
 import com.ae.chaebbiSpring.service.BistroService;
 import com.ae.chaebbiSpring.service.BookmarkService;
 import com.ae.chaebbiSpring.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,8 @@ public class BistroApiController {
     private final UserService userService;
 
     //6-1
+    @Tag(name = "음식점", description = "음식점 API")
+    @Operation(summary = "[POST] 6-1 음식점 중분루 조회", description = "음식점 중분류 조회 API ")
     @PostMapping("/api/bistromiddle")
     public BaseResponse<ResultResponse> middle(@AuthenticationPrincipal String userId, @RequestBody @Valid MiddleRequestDto request) {
         if(userId == null) {
@@ -61,6 +65,8 @@ public class BistroApiController {
     }
 
     //6-2
+    @Tag(name = "음식점", description = "음식점 API")
+    @Operation(summary = "[POST] 6-2 대,중분류 별 음식점 조회", description = "음식점 대분류, 중분류별 조회 API ")
     @PostMapping("/api/categories")
     public BaseResponse<CategoryListResponseDto> categories(@AuthenticationPrincipal String userId, @RequestBody @Valid CategoryRequestDto request) {
         if(userId == null) {
@@ -104,6 +110,8 @@ public class BistroApiController {
     }
 
     //6-3
+    @Tag(name = "음식점", description = "음식점 API")
+    @Operation(summary = "[POST] 6-3 지도 음식점 전체 조회", description = "지도 음식점 전체 조회 API ")
     @GetMapping("/api/allbistro")
     public ResultResponse allBistro(@AuthenticationPrincipal String userId) {
         List<Bistro> allBistro = bistroService.getBistro();
@@ -123,6 +131,9 @@ public class BistroApiController {
     }
 
     //6-4
+    @Tag(name = "음식점", description = "음식점 API")
+    @Operation(summary = "[POST] 6-4 음식점 대분류 조회", description = "음식점 대분류 조회 API ")
+
     @GetMapping("api/bistrowide")
     public BaseResponse<ResultResponse> middle(@AuthenticationPrincipal String userId) {
         if(userId == null) {

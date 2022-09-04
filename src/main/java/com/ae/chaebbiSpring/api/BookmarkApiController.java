@@ -11,6 +11,11 @@ import com.ae.chaebbiSpring.dto.response.RestaurantResponseDto;
 import com.ae.chaebbiSpring.service.BistroService;
 import com.ae.chaebbiSpring.service.BookmarkService;
 import com.ae.chaebbiSpring.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +37,12 @@ public class BookmarkApiController {
     private final UserService userService;
     private final BistroService bistroService;
 
+    @Tag(name = "즐겨찾기", description = "즐겨찾기 API")
+    @Operation(summary = "[POST] 7-1 즐겨찾기 등록 ", description = "즐겨찾기 북마크 등록 API ")
     //7-1
     @PostMapping("api/bookmark")
     public BaseResponse<CreateBookmarkResponseDto> createBookmarkResponse(@AuthenticationPrincipal String userId,
-                                                                          @RequestBody @Valid BookmarkRequestDto request) {
+                                                                          @Parameter  @RequestBody @Valid BookmarkRequestDto request) {
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -57,6 +64,8 @@ public class BookmarkApiController {
     }
 
     //7-2
+    @Tag(name = "즐겨찾기", description = "즐겨찾기 API")
+    @Operation(summary = "[POST] 7-2 즐겨찾기 조회 ", description = "즐겨찾기 북마크 조회 API ")
     @GetMapping("api/bookmarklist")
     public BaseResponse<ResResponse> bookmarkList(@AuthenticationPrincipal String userId) {
         if(userId == null) {
@@ -78,6 +87,9 @@ public class BookmarkApiController {
     }
 
     //7-3
+    @Tag(name = "즐겨찾기", description = "즐겨찾기 API")
+    @Operation(summary = "[POST] 7-3 즐겨찾기 삭제 ", description = "즐겨찾기 북마크 삭제 API")
+
     @DeleteMapping("api/del/bookmark")
     public BaseResponse<CreateBookmarkResponseDto> deleteBookmark(@AuthenticationPrincipal String userId,
                               @RequestBody @Valid BookmarkRequestDto request){
