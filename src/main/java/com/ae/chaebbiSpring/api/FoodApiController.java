@@ -8,6 +8,9 @@ import com.ae.chaebbiSpring.dto.response.FoodTypeResponseDto;
 import com.ae.chaebbiSpring.dto.response.ResResponse;
 import com.ae.chaebbiSpring.service.FoodService;
 import com.ae.chaebbiSpring.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +27,7 @@ import static com.ae.chaebbiSpring.config.BaseResponseStatus.*;
 import static com.ae.chaebbiSpring.config.BaseResponseStatus.POST_RECORD_NO_ID;
 import static java.util.stream.Collectors.toList;
 
+@Api(tags = "Food API", description = "음식 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class FoodApiController {
@@ -31,6 +35,7 @@ public class FoodApiController {
     private final UserService userService;
 
     //2-1
+    @Operation(summary = "식단 검색", description = "모든 음식 API")
     @GetMapping("/api/foodname")
     public BaseResponse<ResResponse> foods(@AuthenticationPrincipal String userId) {
         if(userId == null) {
@@ -49,6 +54,7 @@ public class FoodApiController {
 
     }
     //2-2
+    @Operation(summary = "음식 1개 검색", description = "음식 인덱스 API")
     @PostMapping("/api/food")
     public BaseResponse<ResResponse> foodResponse(@AuthenticationPrincipal String userId, @RequestBody @Valid CreateFoodRequest request){
         if(userId == null) {
@@ -66,8 +72,10 @@ public class FoodApiController {
         return new BaseResponse<>(new ResResponse(collect.size(), collect));
     }
 
+    @Schema(description = "음식 인덱스 조회 request")
     @Data
     private static class CreateFoodRequest {
+        @Schema(name = "id", description = "영양조회 하고싶은 음식 ", nullable = false, example = "4")
         @NotNull
         private Long id;
     }
