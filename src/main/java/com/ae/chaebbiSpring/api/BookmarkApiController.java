@@ -65,7 +65,7 @@ public class BookmarkApiController {
 
     //7-2
     @Tag(name = "즐겨찾기", description = "즐겨찾기 API")
-    @Operation(summary = "[POST] 7-2 즐겨찾기 조회 ", description = "즐겨찾기 북마크 조회 API ")
+    @Operation(summary = "[GET] 7-2 즐겨찾기 조회 ", description = "즐겨찾기 북마크 조회 API ")
     @GetMapping("api/bookmarklist")
     public BaseResponse<ResResponse> bookmarkList(@AuthenticationPrincipal String userId) {
         if(userId == null) {

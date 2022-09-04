@@ -132,7 +132,7 @@ public class BistroApiController {
 
     //6-4
     @Tag(name = "음식점", description = "음식점 API")
-    @Operation(summary = "[POST] 6-4 음식점 대분류 조회", description = "음식점 대분류 조회 API ")
+    @Operation(summary = "[GET] 6-4 음식점 대분류 조회", description = "음식점 대분류 조회 API ")
 
     @GetMapping("api/bistrowide")
     public BaseResponse<ResultResponse> middle(@AuthenticationPrincipal String userId) {

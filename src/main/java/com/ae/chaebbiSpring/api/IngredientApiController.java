@@ -5,6 +5,8 @@ import com.ae.chaebbiSpring.domain.Ingredient;
 import com.ae.chaebbiSpring.dto.response.IngredientResponseDto;
 import com.ae.chaebbiSpring.dto.response.ResResponse;
 import com.ae.chaebbiSpring.service.IngredientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ public class IngredientApiController {
     private final IngredientService ingredientService;
 
     //9-1
+    @Tag(name = "음식 재료", description = "음식 재료 API")
+    @Operation(summary = "[GET] 9-1 음식 재료 검색", description = "음식 추천에서 재료검색 API  ")
     @GetMapping("/api/ingredient")
     public BaseResponse<ResResponse> ingredients(@AuthenticationPrincipal String userId) {
         if(userId == null) {
