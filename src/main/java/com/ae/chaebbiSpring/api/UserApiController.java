@@ -218,6 +218,7 @@ public class UserApiController {
     }
 
     // 11-1 : [POST] 회원가입 api
+    @Operation(summary = "[POST] 11-1 일반 회원가입", description = "일반 회원 회원가입 API")
     @PostMapping("api/create-user")
     public BaseResponse<JoinResponseDto> createUser(@RequestBody CreateUserRequestDto createUserRequestDto){
         if(createUserRequestDto.getEmail().isEmpty() || createUserRequestDto.getEmail().equals("")){
@@ -264,7 +265,8 @@ public class UserApiController {
     }
 
     // 11-2 :[POST] 이메일 중복확인 api
-   @PostMapping("api/email-check")
+    @Operation(summary = "[POST] 이베일 중복확인", description = "일반 회원 이메일 중복확인API")
+    @PostMapping("api/email-check")
     public BaseResponse<CheckEmailRes> checkEmail(@RequestBody CheckEmailReq checkEmailReq) {
        if(checkEmailReq.getEmail().isEmpty() || checkEmailReq.getEmail().equals("")){
            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
@@ -274,6 +276,7 @@ public class UserApiController {
     }
 
     // 11-3 : [POST] 로그인 api
+    @Operation(summary = "[POST] 11-3 일반 로그인", description = "일반 회원 로그인 API")
     @PostMapping("api/user-login")
     public BaseResponse<GeneralLoginResDto> generalLogin(@RequestBody GeneralLoginReqDto loginReqDto){
         if(loginReqDto.getEmail().isEmpty() || loginReqDto.getEmail().equals("")){
