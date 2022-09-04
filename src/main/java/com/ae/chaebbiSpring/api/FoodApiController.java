@@ -59,13 +59,6 @@ public class FoodApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(String.valueOf(request.getId()).isEmpty()) {
-            return new BaseResponse<>(POST_FOOD_NO_ID);
-        }
-        if(String.valueOf(request.getId()).equals("")) {
-            return new BaseResponse<>(POST_FOOD_NO_ID);
-        }
-
         List<Food> findFood = foodService.findFood(request.id);
         List<FoodResponseDto> collect = findFood.stream()
                 .map(m -> new FoodResponseDto(m.getName(), m.getCapacity(), m.getCalory(), m.getCarb(), m.getPro(), m.getFat()))

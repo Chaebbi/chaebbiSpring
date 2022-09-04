@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -64,24 +65,15 @@ public class RecordApiController {
             }
         }
 
-        if(multipartFile == null) {
-            return new BaseResponse<>(POST_RECORD_NO_IMAGE);
-        }
-        if(multipartFile.isEmpty()) {
+        if(multipartFile == null || multipartFile.isEmpty()) {
             return new BaseResponse<>(POST_RECORD_NO_IMAGE);
         }
 
-        if(text.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_TEXT);
-        }
-        if(text.equals("")) {
+        if(text.isEmpty() || text.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_TEXT);
         }
 
-        if(calory.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_CALORY);
-        }
-        if(calory.equals("")) {
+        if(calory.isEmpty() || calory.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_CALORY);
         }
 
@@ -89,10 +81,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_CALORY);
         }
 
-        if(carb.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_CARB);
-        }
-        if(carb.equals("")) {
+        if(carb.isEmpty() || carb.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_CARB);
         }
 
@@ -100,10 +89,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_CARB);
         }
 
-        if(protein.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_PROTEIN);
-        }
-        if(protein.equals("")) {
+        if(protein.isEmpty() || protein.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_PROTEIN);
         }
 
@@ -111,10 +97,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_PROTEIN);
         }
 
-        if(fat.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_FAT);
-        }
-        if(fat.equals("")) {
+        if(fat.isEmpty() || fat.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_FAT);
         }
 
@@ -122,11 +105,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_FAT);
         }
 
-        if(rdate.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_RDATE);
-        }
-
-        if(rdate.equals("")){
+        if(rdate.isEmpty() || rdate.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_RDATE);
         }
 
@@ -137,12 +116,15 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_INVALID_RDATE);
         }
 
-        if(rtime.isEmpty()) {
+        if(rtime.isEmpty() || rtime.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_RTIME);
         }
 
-        if(rtime.equals("")){
-            return new BaseResponse<>(POST_RECORD_NO_RTIME);
+        try{
+            LocalTime.from(LocalTime.parse(rtime, DateTimeFormatter.ofPattern("HH:mm")));
+        }catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return new BaseResponse<>(POST_RECORD_INVALID_RTIME);
         }
 
 
@@ -150,17 +132,15 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_NO_AMOUNT);
         }
 
-        if(amount.intValue() <= 0) {
+        if(amount <= 0) {
             return new BaseResponse<>(POST_RECORD_MINUS_AMOUNT);
         }
 
-        if(String.valueOf(meal).isEmpty()) {
+        if(String.valueOf(meal).isEmpty() || String.valueOf(meal).equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_MEAL);
         }
-        if(String.valueOf(meal).equals("")) {
-            return new BaseResponse<>(POST_RECORD_NO_MEAL);
-        }
-        if(meal != 0 || meal != 1 || meal != 2) {
+
+        if(meal != 0 && meal != 1 && meal != 2) {
             return new BaseResponse<>(POST_RECORD_INVALID_MEAL);
         }
 
@@ -250,12 +230,6 @@ public class RecordApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(String.valueOf(request.getRecord_id()).isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_ID);
-        }
-        if(String.valueOf(request.getRecord_id()).equals("")) {
-            return new BaseResponse<>(POST_RECORD_NO_ID);
-        }
 
         List<Record> findDetailRecord = recordService.findDetailOne(Long.valueOf(userId), Long.valueOf(request.getRecord_id()));
         String name = userService.findOne(Long.valueOf(userId)).getName();
@@ -288,17 +262,11 @@ public class RecordApiController {
         }
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
 
-        if(text.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_TEXT);
-        }
-        if(text.equals("")) {
+        if(text.isEmpty() || text.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_TEXT);
         }
 
-        if(calory.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_CALORY);
-        }
-        if(calory.equals("")) {
+        if(calory.isEmpty() || calory.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_CALORY);
         }
 
@@ -306,10 +274,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_CALORY);
         }
 
-        if(carb.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_CARB);
-        }
-        if(carb.equals("")) {
+        if(carb.isEmpty() || carb.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_CARB);
         }
 
@@ -317,10 +282,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_CARB);
         }
 
-        if(protein.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_PROTEIN);
-        }
-        if(protein.equals("")) {
+        if(protein.isEmpty() || protein.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_PROTEIN);
         }
 
@@ -328,10 +290,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_PROTEIN);
         }
 
-        if(fat.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_FAT);
-        }
-        if(fat.equals("")) {
+        if(fat.isEmpty() || fat.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_FAT);
         }
 
@@ -339,11 +298,7 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_FAT);
         }
 
-        if(rdate.isEmpty()) {
-            return new BaseResponse<>(POST_RECORD_NO_RDATE);
-        }
-
-        if(rdate.equals("")){
+        if(rdate.isEmpty() || rdate.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_RDATE);
         }
 
@@ -354,13 +309,17 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_INVALID_RDATE);
         }
 
-        if(rtime.isEmpty()) {
+        if(rtime.isEmpty() || rtime.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_RTIME);
         }
 
-        if(rtime.equals("")){
-            return new BaseResponse<>(POST_RECORD_NO_RTIME);
+        try{
+            LocalTime.from(LocalTime.parse(rtime, DateTimeFormatter.ofPattern("HH:mm")));
+        }catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return new BaseResponse<>(POST_RECORD_INVALID_RTIME);
         }
+
 
 
         if(amount == null) {
@@ -371,13 +330,11 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_MINUS_AMOUNT);
         }
 
-        if(String.valueOf(meal).isEmpty()) {
+        if(String.valueOf(meal).isEmpty() || String.valueOf(meal).equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_MEAL);
         }
-        if(String.valueOf(meal).equals("")) {
-            return new BaseResponse<>(POST_RECORD_NO_MEAL);
-        }
-        if(meal != 0 || meal != 1 || meal != 2) {
+
+        if(meal != 0 && meal != 1 && meal != 2) {
             return new BaseResponse<>(POST_RECORD_INVALID_MEAL);
         }
 
