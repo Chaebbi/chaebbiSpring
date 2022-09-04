@@ -10,6 +10,15 @@ import com.ae.chaebbiSpring.dto.response.*;
 import com.ae.chaebbiSpring.service.RecordService;
 import com.ae.chaebbiSpring.service.UserService;
 import com.ae.chaebbiSpring.aws.S3Uploader;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,6 +38,7 @@ import java.util.List;
 import static com.ae.chaebbiSpring.config.BaseResponseStatus.*;
 import static java.util.stream.Collectors.toList;
 
+@Api(tags = "Record API", description = "식단 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class RecordApiController {
@@ -36,18 +47,20 @@ public class RecordApiController {
     private final S3Uploader s3Uploader;
 
     //1-1
+    @Operation(summary = "식단 기록", description = "식단 등록 API")
+    //@ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "String", paramType = "header")})
     @PostMapping(value = "/api/record", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<RecordResponseDto> createRecord(@AuthenticationPrincipal String userId,
-                                                        @RequestParam (value = "image", required = false) MultipartFile multipartFile,
-                                                        @RequestParam (value = "text", required = true) String text,
-                                                        @RequestParam (value = "calory", required = false) String calory,
-                                                        @RequestParam (value = "carb", required = false) String carb,
-                                                        @RequestParam (value = "protein", required = false) String protein,
-                                                        @RequestParam (value = "fat", required = false) String fat,
-                                                        @RequestParam (value = "rdate", required = true) String rdate,
-                                                        @RequestParam (value = "rtime", required = true) String rtime,
-                                                        @RequestParam (value = "amount", required = false) Double amount,
-                                                        @RequestParam (value = "meal", required = true) int meal
+                                                        @Schema(description = "이미지 파일", nullable = true, type = "MultipartFile") @RequestParam (value = "image", required = false) MultipartFile multipartFile,
+                                                        @Schema(description = "식단 메뉴", example = "김치찌개", nullable = false, type = "String") @RequestParam (value = "text", required = true) String text,
+                                                        @Schema(description = "식단 칼로리", example = "153", nullable = true, type = "String") @RequestParam (value = "calory", required = false) String calory,
+                                                        @Schema(description = "식단 탄수화물", example = "13", nullable = true, type = "String") @RequestParam (value = "carb", required = false) String carb,
+                                                        @Schema(description = "식단 단백질", example = "23", nullable = true, type = "String") @RequestParam (value = "protein", required = false) String protein,
+                                                        @Schema(description = "식단 지방", example = "4", nullable = true, type = "String") @RequestParam (value = "fat", required = false) String fat,
+                                                        @Pattern(regexp = "\\d{4}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01]).") @Schema(description = "식단 날짜", example = "2022.09.04.", nullable = false, type = "String") @RequestParam (value = "rdate", required = true) String rdate,
+                                                        @Pattern(regexp = "(0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9])") @Schema(description = "식단 시간", example = "08:00", nullable = false, type = "String") @RequestParam (value = "rtime", required = true) String rtime,
+                                                        @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
+                                                        @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
                                              ) throws IOException {
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
@@ -153,6 +166,7 @@ public class RecordApiController {
     }
 
     //1-2
+    @Operation(summary = "식단 날짜별 조회", description = "식단 날짜별 조회 API(메인 화면 용)")
     @PostMapping("/api/daterecord")
     public BaseResponse<DateRecordResponseDto> dateRecords(@AuthenticationPrincipal String userId, @RequestBody @Valid DateRecordRequestDto request) {
         if(userId == null) {
@@ -220,6 +234,7 @@ public class RecordApiController {
     }
 
     //1-3
+    @Operation(summary = "식단 상세 조회", description = "식단 상세 조회 API(상세페이지)")
     @PostMapping("api/detailrecord")
     public BaseResponse<ResultResponse> recordResponse(@AuthenticationPrincipal String userId, @RequestBody @Valid DetailRecordRequestDto request) throws BaseException {
         if(userId == null) {
@@ -241,17 +256,18 @@ public class RecordApiController {
     }
 
     //1-4
+    @Operation(summary = "식단 기록 (이미지없이)", description = "식단 등록 API(검색으로 등록하기)")
     @PostMapping("api/record-no-img")
     public BaseResponse<RecordResponseDto> createRecord(@AuthenticationPrincipal String userId,
-                                          @RequestParam (value = "text", required = true) String text,
-                                          @RequestParam (value = "calory", required = false) String calory,
-                                          @RequestParam (value = "carb", required = false) String carb,
-                                          @RequestParam (value = "protein", required = false) String protein,
-                                          @RequestParam (value = "fat", required = false) String fat,
-                                          @RequestParam (value = "rdate", required = true) String rdate,
-                                          @RequestParam (value = "rtime", required = true) String rtime,
-                                          @RequestParam (value = "amount", required = false) Double amount,
-                                          @RequestParam (value = "meal", required = true) int meal
+                                                        @Schema(description = "식단 메뉴", example = "김치찌개", nullable = false, type = "String") @RequestParam (value = "text", required = true) String text,
+                                                        @Schema(description = "식단 칼로리", example = "153", nullable = true, type = "String") @RequestParam (value = "calory", required = false) String calory,
+                                                        @Schema(description = "식단 탄수화물", example = "13", nullable = true, type = "String") @RequestParam (value = "carb", required = false) String carb,
+                                                        @Schema(description = "식단 단백질", example = "23", nullable = true, type = "String") @RequestParam (value = "protein", required = false) String protein,
+                                                        @Schema(description = "식단 지방", example = "4", nullable = true, type = "String") @RequestParam (value = "fat", required = false) String fat,
+                                                        @Pattern(regexp = "\\d{4}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01]).") @Schema(description = "식단 날짜", example = "2022.09.04.", nullable = false, type = "String") @RequestParam (value = "rdate", required = true) String rdate,
+                                                        @Pattern(regexp = "(0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9])") @Schema(description = "식단 시간", example = "08:00", nullable = false, type = "String") @RequestParam (value = "rtime", required = true) String rtime,
+                                                        @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
+                                                        @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
     ) throws IOException {
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
