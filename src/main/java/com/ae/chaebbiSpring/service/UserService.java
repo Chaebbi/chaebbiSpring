@@ -69,7 +69,7 @@ public class UserService {
         return new JoinResponseDto(u.getId());
     }
 
-    public CheckEmailRes checkEmailDuplicate(CheckEmailReq checkEmailReq) {
+    public CheckEmailRes checkEmailDuplicate(String checkEmailReq) {
         Long isPresent = userRepository.checkEmailDuplicate(checkEmailReq);
         if(isPresent > 0){
             return new CheckEmailRes("duplicate email");

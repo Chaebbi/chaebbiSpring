@@ -133,14 +133,17 @@ public class BistroApiController {
 
     //6-4
     @GetMapping("api/bistrowide")
-    public ResultResponse middle(@AuthenticationPrincipal String userId) {
+    public BaseResponse<ResultResponse> middle(@AuthenticationPrincipal String userId) {
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
         List<Bistro> bistros = bistroService.getWide();
         List<String> wides = new ArrayList<>();
 
         for(Bistro bistro : bistros) {
             wides.add(bistro.getWide());
         }
-        return new ResultResponse(wides);
+        return new BaseResponse<>(new ResultResponse(wides));
     }
 
 }

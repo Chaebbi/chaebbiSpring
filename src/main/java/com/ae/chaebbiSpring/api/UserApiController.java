@@ -16,14 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
@@ -87,7 +85,7 @@ public class UserApiController {
         }
     }
 
-    // 3-2
+    // 3-3
     @PostMapping("/api/signup")
     public BaseResponse<ResponseEntity<?>> signup(@AuthenticationPrincipal String userId, @RequestBody SignupRequestDto signupRequestDto) {
         if(userId == null) {
@@ -146,7 +144,7 @@ public class UserApiController {
             return new BaseResponse<>(POST_USER_NO_WEIGHT);
         }
 
-        if(Integer.valueOf(signupRequestDto.getWeight()) < 0) {
+        if(Integer.parseInt(signupRequestDto.getWeight()) < 0) {
             return new BaseResponse<>(POST_USER_MINUS_WEIGHT);
         }
 
@@ -242,21 +240,69 @@ public class UserApiController {
 
     // 11-1 : [POST] 회원가입 api
     @PostMapping("api/create-user")
-    public JoinResponseDto createUser(@RequestBody CreateUserRequestDto createUserRequestDto){
+    public BaseResponse<JoinResponseDto> createUser(@RequestBody CreateUserRequestDto createUserRequestDto){
+        if(createUserRequestDto.getEmail().isEmpty() || createUserRequestDto.getEmail().equals("")){
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        }
+        String isPresent = userService.checkEmailDuplicate(createUserRequestDto.getEmail()).getIsPresent();
+        if(isPresent.equals("duplicate email")){
+            return new BaseResponse<>(DUPLICATED_EMAIL);
+        }
+        if(createUserRequestDto.getPwd().length() > 20 || createUserRequestDto.getPwd().length() < 5){
+            return new BaseResponse<>(POST_SHORT_PWD);
+        }
+        if(createUserRequestDto.getGender() != 0 && createUserRequestDto.getGender() != 1 ) {
+            return new BaseResponse<>(POST_USER_INVALID_GENDER);
+        }
+        if(createUserRequestDto.getName().isEmpty() || createUserRequestDto.getName().equals("")) {
+            return new BaseResponse<>(POST_USER_NO_NAME);
+        }
+        if(createUserRequestDto.getName().length() > 45) {
+            return new BaseResponse<>(POST_USER_LONG_NAME);
+        }
+
+        if(createUserRequestDto.getAge() < 1) {
+            return new BaseResponse<>(POST_USER_MINUS_AGE);
+        }
+        if(createUserRequestDto.getHeight().isEmpty() || createUserRequestDto.getHeight().equals("")) {
+            return new BaseResponse<>(POST_USER_NO_HEIGHT);
+        }
+        if(Integer.valueOf(createUserRequestDto.getHeight()) < 0) {
+            return new BaseResponse<>(POST_USER_MINUS_HEIGHT);
+        }
+        if(createUserRequestDto.getWeight().isEmpty() || createUserRequestDto.getWeight().equals("")) {
+            return new BaseResponse<>(POST_USER_NO_WEIGHT);
+        }
+        if(Integer.parseInt(createUserRequestDto.getWeight()) < 0) {
+            return new BaseResponse<>(POST_USER_MINUS_WEIGHT);
+        }
+        if(Integer.valueOf(createUserRequestDto.getActivity()) != 25 && Integer.valueOf(createUserRequestDto.getActivity()) != 33 && Integer.valueOf(createUserRequestDto.getActivity()) != 40) {
+            return new BaseResponse<>(POST_USER_INVALID_ACTIVITY);
+        }
+
         JoinResponseDto joinResponseDto = userService.join(createUserRequestDto);
-        return joinResponseDto;
+        return new BaseResponse<>(joinResponseDto);
     }
 
     // 11-2 :[POST] 이메일 중복확인 api
-    @PostMapping("api/email-check")
-    public CheckEmailRes checkEmail(@RequestBody CheckEmailReq checkEmailReq) {
-        return userService.checkEmailDuplicate(checkEmailReq);
+   @PostMapping("api/email-check")
+    public BaseResponse<CheckEmailRes> checkEmail(@RequestBody CheckEmailReq checkEmailReq) {
+       if(checkEmailReq.getEmail().isEmpty() || checkEmailReq.getEmail().equals("")){
+           return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+       }
+        return new BaseResponse(userService.checkEmailDuplicate(checkEmailReq.getEmail()));
 
     }
 
     // 11-3 : [POST] 로그인 api
     @PostMapping("api/user-login")
     public BaseResponse<GeneralLoginResDto> generalLogin(@RequestBody GeneralLoginReqDto loginReqDto){
+        if(loginReqDto.getEmail().isEmpty() || loginReqDto.getEmail().equals("")){
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        }
+        if(loginReqDto.getPwd().isEmpty() || loginReqDto.getPwd().equals("")){
+            return new BaseResponse<>(POST_USERS_EMPTY_PWD);
+        }
         try {
             return new BaseResponse<>(userService.generalLogin(loginReqDto));
         }catch (BaseException e){

@@ -29,6 +29,7 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_EMPTY_PWD(false,2018,"비밀번호가 없습니다."),
 
     // [POST] /record
     POST_RECORD_NO_IMAGE(false, 2100, "이미지가 없습니다."),
@@ -86,6 +87,27 @@ public enum BaseResponseStatus {
     // [POST] /bistro
     POST_BISTRO_NO_WIDE(false, 2142, "wide를 입력해주세요."),
     POST_BISTRO_NO_MIDDLE(false, 2143, "middle을 입력해주세요."),
+
+    // [POST] / bookmark
+    POST_BOOKMARK_NO_BISTRO_ID(false, 2144, "bistro_id를 입력해주세요. "),
+    POST_BOOKMARK_PRESENT_BISTRO(false, 2145, "이미 북마크한 bistro입니다. "),
+    POST_BOOKMARK_LIST_EMPTY(false, 2146, "북마크한 식당이 없습니다"),
+    POST_BOOMARK_THERE_NO_BISTRO(false, 2147, "북마크 한적 없는 식당을 북마크 해제 하고있습니다"),
+    // [POST] / schedule
+    PUT_SCHEDULE_TITLE(false, 2148, "일정 제목을 입력해주세요"),
+    PUT_SCHEDULE_WIDE(false, 2149, "일정의 대분류를 입력해주세요"),
+    PUT_SCHEDULE_MIDDLE(false, 2150, "일정의 중분류를 입력해주세요"),
+    PUT_SCHEDULE_SDATE(false, 2151, "일정 시작날짜를 입력해주세요"),
+    PUT_SCHEDULE_EDATE(false, 2152, "일정 끝날짜를 입력해주세요"),
+    PUT_SCHEDULE_STIME(false, 2153, "일정 시작시간을 입력해주세요"),
+    PUT_SCHEDULE_ETIME(false, 2154, "일정 끝시간을 입력해주세요"),
+    PUT_SCHEDULE_INVALID_DATE(false, 2155, "일정의 날짜형식 yyyy-MM-dd을 확인하세요"),
+    PUT_SCHEDULE_INVALID_TIME(false, 2155, "일정의 시간형식 HH:mm:ss 을 확인하세요"),
+
+    // [Post] / 일반로그인
+    POST_SHORT_PWD(false, 2156, "비밀번호의 길이가 5미만이거나 20 초과입니다."),
+
+
 
     /**
      * 3000 : Response오류

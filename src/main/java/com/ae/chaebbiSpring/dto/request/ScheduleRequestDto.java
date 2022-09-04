@@ -1,7 +1,9 @@
 package com.ae.chaebbiSpring.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @Getter
