@@ -9,6 +9,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Schema(description = "대분류, 중분류에 속하는 음식점들의 리스트 DTO")
 public class CategoryListDto {
+    @Schema(description = "음식점 id")
+    private int bistroId;
+
     @Schema(description = "음식점의 북마크 여부")
     private int isBookmark;
     @Schema(description = "음식점의 카테고리")
