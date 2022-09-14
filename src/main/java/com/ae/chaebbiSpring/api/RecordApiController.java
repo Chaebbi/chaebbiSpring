@@ -8,6 +8,7 @@ import com.ae.chaebbiSpring.dto.request.DateRecordRequestDto;
 import com.ae.chaebbiSpring.dto.request.DetailRecordRequestDto;
 import com.ae.chaebbiSpring.dto.response.*;
 import com.ae.chaebbiSpring.service.RecordService;
+import com.ae.chaebbiSpring.service.ScheduleService;
 import com.ae.chaebbiSpring.service.UserService;
 import com.ae.chaebbiSpring.aws.S3Uploader;
 import io.swagger.annotations.Api;
@@ -44,6 +45,8 @@ import static java.util.stream.Collectors.toList;
 public class RecordApiController {
     private final RecordService recordService;
     private final UserService userService;
+
+    private final ScheduleService scheduleService;
     private final S3Uploader s3Uploader;
 
     //1-1
@@ -224,12 +227,14 @@ public class RecordApiController {
         List<RecordsDto> records = new ArrayList<RecordsDto>();
         records.add(b); records.add(l); records.add(d);
 
+        String todayDate = String.valueOf(LocalDate.from(LocalDate.parse(request.getDate(), DateTimeFormatter.ofPattern("yyyy.MM.dd."))));
+        List<ScheduleDto> scheduleDtos = scheduleService.findschedule(userId, todayDate);
 
 
         return new BaseResponse<>(new DateRecordResponseDto(totalCalory.intValue(), totalCarb.intValue(), totalPro.intValue(), totalFat.intValue(),
-                (int) Math.round(Double.parseDouble(user.getRcal())), Integer.parseInt(user.getRcarb()), Integer.parseInt(user.getRpro()),
+                (int) Math.round(Double.parseDouble(user.getRcal())), (int) Math.round(Double.parseDouble(user.getRcarb())), (int) Math.round(Double.parseDouble(user.getRpro())),
                 (int) Math.round(Double.parseDouble(user.getRfat())),
-                records));
+                records, scheduleDtos));
     }
 
     //1-3

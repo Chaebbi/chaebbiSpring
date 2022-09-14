@@ -14,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Schedule {
     @Id
+    @Column(name="scheduleId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
