@@ -27,4 +27,6 @@ public class DateRecordResponseDto {
     private int recommFat;
     @Schema(description = "사용자의 하루 식단 기록", nullable = true)
     private List<RecordsDto> records;
+    @Schema(description = "사용자의 하루 일정 ", nullable = true)
+    private List<ScheduleDto> schedules;
 }
