@@ -8,18 +8,11 @@ import com.ae.chaebbiSpring.dto.request.DateRecordRequestDto;
 import com.ae.chaebbiSpring.dto.request.DetailRecordRequestDto;
 import com.ae.chaebbiSpring.dto.response.*;
 import com.ae.chaebbiSpring.service.RecordService;
-import com.ae.chaebbiSpring.service.ScheduleService;
 import com.ae.chaebbiSpring.service.UserService;
 import com.ae.chaebbiSpring.aws.S3Uploader;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,7 +39,6 @@ public class RecordApiController {
     private final RecordService recordService;
     private final UserService userService;
 
-    private final ScheduleService scheduleService;
     private final S3Uploader s3Uploader;
 
     //1-1
@@ -228,13 +220,12 @@ public class RecordApiController {
         records.add(b); records.add(l); records.add(d);
 
         String todayDate = String.valueOf(LocalDate.from(LocalDate.parse(request.getDate(), DateTimeFormatter.ofPattern("yyyy.MM.dd."))));
-        List<ScheduleDto> scheduleDtos = scheduleService.findschedule(userId, todayDate);
 
 
         return new BaseResponse<>(new DateRecordResponseDto(totalCalory.intValue(), totalCarb.intValue(), totalPro.intValue(), totalFat.intValue(),
                 (int) Math.round(Double.parseDouble(user.getRcal())), (int) Math.round(Double.parseDouble(user.getRcarb())), (int) Math.round(Double.parseDouble(user.getRpro())),
                 (int) Math.round(Double.parseDouble(user.getRfat())),
-                records, scheduleDtos));
+                records));
     }
 
     //1-3
