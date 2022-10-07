@@ -1,6 +1,7 @@
 package com.ae.chaebbiSpring.service;
 
 import com.ae.chaebbiSpring.domain.Bistro;
+import com.ae.chaebbiSpring.dto.response.CategoryListDto;
 import com.ae.chaebbiSpring.repository.BistroRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,17 @@ public class BistroService {
 
     public List<Bistro> getWide() {
         return bistroRepository.getWide();
+    }
+
+    public String getUrl(int bistroId) {
+        return bistroRepository.getUrl(bistroId);
+    }
+
+    public List<Bistro> getBistroMain(String main) {
+        return bistroRepository.getBistroMain(main);
+    }
+
+    public List<Bistro> getBistroMiddle(String main, String middle) {
+        return bistroRepository.getBistroMiddle(main, middle);
     }
 }

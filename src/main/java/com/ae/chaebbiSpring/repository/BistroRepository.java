@@ -43,4 +43,25 @@ public class BistroRepository {
         return em.createQuery("select b from Bistro b group by b.wide")
                 .getResultList();
     }
+
+    public String getUrl(int bistroId) {
+        return em.createQuery("select b from Bistro b where b.id = :id", Bistro.class)
+                .setParameter("id", Long.valueOf(String.valueOf(bistroId)))
+                .getSingleResult()
+                .getUrl();
+    }
+    public List<Bistro> getBistroMain(String main) {
+        return em.createQuery("select b from Bistro b join BistroCategory bc on b.id = bc.bistro_id join MainCategory mc on mc.id = bc.main_id where mc.type = :main", Bistro.class)
+                .setParameter("main", main)
+                .getResultList();
+
+    }
+
+    public List<Bistro> getBistroMiddle(String main, String middle) {
+        return em.createQuery("select b from Bistro b join BistroCategory bc on b.id = bc.bistro_id join MainCategory mc on mc.id = bc.main_id " +
+                "join MiddleCategory mdc on mdc.id = bc.middle_id where mc.type = :main and mdc.type = :middle")
+                .setParameter("main", main)
+                .setParameter("middle", middle)
+                .getResultList();
+    }
 }
