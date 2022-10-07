@@ -74,7 +74,10 @@ public class BookmarkApiController {
         List<RestaurantResponseDto> restaurantDtos = new ArrayList<>();
 
         for(Bistro bistro: restaurant) {
-            restaurantDtos.add(new RestaurantResponseDto(bistro.getId(), bistro.getCategory(), bistro.getName(),
+            //restaurantDtos.add(new RestaurantResponseDto(bistro.getId(), bistro.getCategory(), bistro.getName(),
+              //      bistro.getRAddr(), bistro.getLAddr(),
+                //    bistro.getTel(), bistro.getLa(), bistro.getLo()));
+            restaurantDtos.add(new RestaurantResponseDto(bistro.getId(), bistro.getName(),
                     bistro.getRAddr(), bistro.getLAddr(),
                     bistro.getTel(), bistro.getLa(), bistro.getLo()));
         }

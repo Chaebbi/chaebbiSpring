@@ -15,7 +15,7 @@ public class Bistro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String category;
+    //private String category;
     private String name;
 
     private String wide;
@@ -33,4 +33,6 @@ public class Bistro {
     private String la;
     @Column(name = "restaurant_lo")
     private String lo;
+    @Column(name = "bistro_url")
+    private String url;
 }

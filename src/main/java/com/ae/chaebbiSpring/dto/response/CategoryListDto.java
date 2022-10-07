@@ -14,8 +14,8 @@ public class CategoryListDto {
 
     @Schema(description = "음식점의 북마크 여부")
     private int isBookmark;
-    @Schema(description = "음식점의 카테고리")
-    private String category;
+    //@Schema(description = "음식점의 카테고리")
+    //private String category;
     @Schema(description = "음식점의 이름")
     @NotNull
     private String name;

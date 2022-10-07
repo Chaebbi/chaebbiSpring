@@ -3,12 +3,11 @@ package com.ae.chaebbiSpring.api;
 import com.ae.chaebbiSpring.config.BaseResponse;
 import com.ae.chaebbiSpring.domain.Bistro;
 import com.ae.chaebbiSpring.domain.User;
+import com.ae.chaebbiSpring.dto.request.BistroMainRequestDto;
+import com.ae.chaebbiSpring.dto.request.BistroMiddleRequestDto;
 import com.ae.chaebbiSpring.dto.request.CategoryRequestDto;
 import com.ae.chaebbiSpring.dto.request.MiddleRequestDto;
-import com.ae.chaebbiSpring.dto.response.BistroResponseDto;
-import com.ae.chaebbiSpring.dto.response.CategoryListDto;
-import com.ae.chaebbiSpring.dto.response.CategoryListResponseDto;
-import com.ae.chaebbiSpring.dto.response.ResultResponse;
+import com.ae.chaebbiSpring.dto.response.*;
 import com.ae.chaebbiSpring.service.BistroService;
 import com.ae.chaebbiSpring.service.BookmarkService;
 import com.ae.chaebbiSpring.service.UserService;
@@ -18,11 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.jboss.jandex.Main;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -99,12 +96,13 @@ public class BistroApiController {
             } else {
                 isBookmark = 0;
             }
-            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
+            //listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
+            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
         }
 
-        for(Bistro bistro : categoryGroup) {
-            categories.add(bistro.getCategory());
-        }
+        //for(Bistro bistro : categoryGroup) {
+        //    categories.add(bistro.getCategory());
+        //}
 
         return new BaseResponse<>(new CategoryListResponseDto(categories, listDtos.size(), listDtos));
     }
@@ -123,7 +121,9 @@ public class BistroApiController {
             } else {
                 isBookmark = 0;
             }
-            bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
+            //bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
+                    //bistro.getTel(), bistro.getMenu(), Double.parseDouble(bistro.getLa()), Double.parseDouble(bistro.getLo())));
+            bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
                     bistro.getTel(), bistro.getMenu(), Double.parseDouble(bistro.getLa()), Double.parseDouble(bistro.getLo())));
         }
         return new ResultResponse(bistroDtos);
@@ -146,4 +146,85 @@ public class BistroApiController {
         return new BaseResponse<>(new ResultResponse(wides));
     }
 
+    @GetMapping("/api/bistrourl/{bistroId}")
+    public BaseResponse<String> getUrl(@AuthenticationPrincipal String userId, @PathVariable("bistroId") int bistroId) {
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
+        User user = userService.findOne(Long.valueOf(userId));
+        if (user == null) {
+            return new BaseResponse<>(INVALID_JWT);
+        }
+        return new BaseResponse<>(bistroService.getUrl(bistroId));
+    }
+
+    @PostMapping("/api/bistro-category-main")
+    public BaseResponse<List<MainListDto>> getBistroMain(@AuthenticationPrincipal String userId, @RequestBody BistroMainRequestDto request) {
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
+        User user = userService.findOne(Long.valueOf(userId));
+        if (user == null) {
+            return new BaseResponse<>(INVALID_JWT);
+        }
+
+        if(request.getMain().isEmpty() || request.getMain().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_MAIN);
+        }
+
+        List<Bistro> bistroMainList = bistroService.getBistroMain(request.getMain());
+        List<Bistro> bookmark = bookmarkService.findBookmark(Long.valueOf(userId));
+
+        List<MainListDto> listDtos = new ArrayList<>();
+
+        for (Bistro bistro : bistroMainList){
+            int isBookmark;
+            if(bookmark.indexOf(bistro) != -1) {
+                isBookmark = 1;
+            } else {
+                isBookmark = 0;
+            }
+
+            listDtos.add(new MainListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getMenu(), bistro.getLa(), bistro.getLo()));
+        }
+
+        return new BaseResponse<>(listDtos);
+    }
+
+    @PostMapping("/api/bistro-category-middle")
+    public BaseResponse<List<MainListDto>> getBistroMiddle(@AuthenticationPrincipal String userId, @RequestBody BistroMiddleRequestDto request) {
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
+        User user = userService.findOne(Long.valueOf(userId));
+        if (user == null) {
+            return new BaseResponse<>(INVALID_JWT);
+        }
+
+        if(request.getMain().isEmpty() || request.getMain().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_MAIN);
+        }
+
+        if(request.getMiddle().isEmpty() || request.getMiddle().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_MIDDLE);
+        }
+
+        List<Bistro> bistroMainList = bistroService.getBistroMiddle(request.getMain(), request.getMiddle());
+        List<Bistro> bookmark = bookmarkService.findBookmark(Long.valueOf(userId));
+
+        List<MainListDto> listDtos = new ArrayList<>();
+
+        for (Bistro bistro : bistroMainList){
+            int isBookmark;
+            if(bookmark.indexOf(bistro) != -1) {
+                isBookmark = 1;
+            } else {
+                isBookmark = 0;
+            }
+
+            listDtos.add(new MainListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getMenu(), bistro.getLa(), bistro.getLo()));
+        }
+
+        return new BaseResponse<>(listDtos);
+    }
 }
