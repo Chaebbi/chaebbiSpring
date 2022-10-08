@@ -1,6 +1,7 @@
 package com.ae.chaebbiSpring.service;
 
 import com.ae.chaebbiSpring.domain.Bistro;
+import com.ae.chaebbiSpring.dto.response.BistroDto;
 import com.ae.chaebbiSpring.dto.response.CategoryListDto;
 import com.ae.chaebbiSpring.repository.BistroRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +22,15 @@ public class BistroService {
         return bistroRepository.getMiddle(wide);
     }
 
-    public List<Bistro> getCategoryList(String wide, String middle) {
+    public List<BistroDto> getCategoryList(String wide, String middle) {
         return bistroRepository.getCategoryList(wide, middle);
     }
 
-    public List<Bistro> getCategories(String wide, String middle) {
+    public List<String> getCategories(String wide, String middle) {
         return bistroRepository.getCategories(wide, middle);
     }
 
-    public List<Bistro> getBistro() {
+    public List<BistroDto> getBistro() {
         return bistroRepository.getBistro();
     }
 

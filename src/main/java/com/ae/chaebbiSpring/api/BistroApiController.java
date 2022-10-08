@@ -82,27 +82,22 @@ public class BistroApiController {
             return new BaseResponse<>(POST_BISTRO_NO_MIDDLE);
         }
 
-        List<Bistro> categoryList = bistroService.getCategoryList(request.getWide(), request.getMiddle());
-        List<Bistro> categoryGroup = bistroService.getCategories(request.getWide(), request.getMiddle());
+        List<BistroDto> categoryList = bistroService.getCategoryList(request.getWide(), request.getMiddle());
+        List<String> categories = bistroService.getCategories(request.getWide(), request.getMiddle());
         List<Bistro> bookmark = bookmarkService.findBookmark(Long.valueOf(userId));
 
         List<CategoryListDto> listDtos = new ArrayList<>();
-        List<String> categories = new ArrayList<>();
 
-        for(Bistro bistro : categoryList) {
+        for(BistroDto bistro : categoryList) {
             int isBookmark;
             if(bookmark.indexOf(bistro) != -1) {
                 isBookmark = 1;
             } else {
                 isBookmark = 0;
             }
-            //listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
-            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
+            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
         }
 
-        //for(Bistro bistro : categoryGroup) {
-        //    categories.add(bistro.getCategory());
-        //}
 
         return new BaseResponse<>(new CategoryListResponseDto(categories, listDtos.size(), listDtos));
     }
@@ -111,19 +106,17 @@ public class BistroApiController {
     @Operation(summary = "[POST] 6-3 지도 음식점 전체 조회", description = "지도 음식점 전체 조회 API ")
     @GetMapping("/api/allbistro")
     public ResultResponse allBistro(@AuthenticationPrincipal String userId) {
-        List<Bistro> allBistro = bistroService.getBistro();
+        List<BistroDto> allBistro = bistroService.getBistro();
         List<Bistro> bookmark = bookmarkService.findBookmark(Long.valueOf(userId));
         List<BistroResponseDto> bistroDtos = new ArrayList<>();
-        for (Bistro bistro : allBistro){
+        for (BistroDto bistro : allBistro){
             int isBookmark;
             if(bookmark.indexOf(bistro) != -1) {
                 isBookmark = 1;
             } else {
                 isBookmark = 0;
             }
-            //bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
-                    //bistro.getTel(), bistro.getMenu(), Double.parseDouble(bistro.getLa()), Double.parseDouble(bistro.getLo())));
-            bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
+            bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
                     bistro.getTel(), bistro.getMenu(), Double.parseDouble(bistro.getLa()), Double.parseDouble(bistro.getLo())));
         }
         return new ResultResponse(bistroDtos);
