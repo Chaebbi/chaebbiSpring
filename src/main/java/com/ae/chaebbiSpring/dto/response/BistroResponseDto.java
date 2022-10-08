@@ -8,7 +8,7 @@ import lombok.Data;
 public class BistroResponseDto {
     private int isBookmark;
     private Long bistro_id;
-    //private String category;
+    private String category;
     private String name;
     private String roadAddr;
     private String lnmAddr;
