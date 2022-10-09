@@ -98,6 +98,7 @@ public enum BaseResponseStatus {
     POST_SHORT_PWD(false, 2156, "비밀번호의 길이가 5미만이거나 20 초과입니다."),
 
     POST_BISTRO_NO_MAIN(false, 2157, "카테고리 대분류를 입력해주세요."),
+    POST_BISTRO_CATEGORY_NO_MIDDLE(false, 2158, "카테고리 중분류를 입력해주세요."),
 
 
     /**
