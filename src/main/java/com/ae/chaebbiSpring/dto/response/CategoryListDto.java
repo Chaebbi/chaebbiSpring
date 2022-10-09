@@ -25,4 +25,6 @@ public class CategoryListDto {
     private String lnmAddr;
     @Schema(description = "음식점의 전화번호")
     private String telNo;
+
+    private String url;
 }

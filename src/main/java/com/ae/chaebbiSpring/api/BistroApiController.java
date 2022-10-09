@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ae.chaebbiSpring.config.BaseResponseStatus.*;
-import static com.ae.chaebbiSpring.config.BaseResponseStatus.PUT_USER_NO_WEIGHT;
 
 @Api(tags = "Bistro API", description = "음식점 관련 API")
 @RestController
@@ -95,7 +94,7 @@ public class BistroApiController {
             } else {
                 isBookmark = 0;
             }
-            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel()));
+            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getUrl()));
         }
 
 
@@ -117,7 +116,7 @@ public class BistroApiController {
                 isBookmark = 0;
             }
             bistroDtos.add(new BistroResponseDto(isBookmark, bistro.getId(), bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(),
-                    bistro.getTel(), bistro.getMenu(), Double.parseDouble(bistro.getLa()), Double.parseDouble(bistro.getLo())));
+                    bistro.getTel(), bistro.getMenu(), Double.parseDouble(bistro.getLa()), Double.parseDouble(bistro.getLo()), bistro.getUrl()));
         }
         return new ResultResponse(bistroDtos);
     }
@@ -139,6 +138,7 @@ public class BistroApiController {
         return new BaseResponse<>(new ResultResponse(wides));
     }
 
+    /*
     @GetMapping("/api/bistrourl/{bistroId}")
     public BaseResponse<String> getUrl(@AuthenticationPrincipal String userId, @PathVariable("bistroId") int bistroId) {
         if(userId == null) {
@@ -150,7 +150,9 @@ public class BistroApiController {
         }
         return new BaseResponse<>(bistroService.getUrl(bistroId));
     }
+     */
 
+    // 6-6
     @PostMapping("/api/bistro-category-main")
     public BaseResponse<List<MainListDto>> getBistroMain(@AuthenticationPrincipal String userId, @RequestBody BistroMainRequestDto request) {
         if(userId == null) {
@@ -178,12 +180,13 @@ public class BistroApiController {
                 isBookmark = 0;
             }
 
-            listDtos.add(new MainListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getMenu(), bistro.getLa(), bistro.getLo()));
+            listDtos.add(new MainListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getMenu(), bistro.getLa(), bistro.getLo(), bistro.getUrl()));
         }
 
         return new BaseResponse<>(listDtos);
     }
 
+    // 6-7
     @PostMapping("/api/bistro-category-middle")
     public BaseResponse<List<MainListDto>> getBistroMiddle(@AuthenticationPrincipal String userId, @RequestBody BistroMiddleRequestDto request) {
         if(userId == null) {
@@ -215,7 +218,7 @@ public class BistroApiController {
                 isBookmark = 0;
             }
 
-            listDtos.add(new MainListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getMenu(), bistro.getLa(), bistro.getLo()));
+            listDtos.add(new MainListDto(bistro.getId().intValue(), isBookmark, bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getMenu(), bistro.getLa(), bistro.getLo(), bistro.getUrl()));
         }
 
         return new BaseResponse<>(listDtos);

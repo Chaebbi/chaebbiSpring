@@ -21,4 +21,5 @@ public class MainListDto {
     private String menu;
     private String la;
     private String lo;
+    private String url;
 }
