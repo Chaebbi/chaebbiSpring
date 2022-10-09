@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class BistroMainRequestDto {
-    private String main;
+    private String siteWide;
+    private String siteMiddle;
+    private String categoryMain;
 }

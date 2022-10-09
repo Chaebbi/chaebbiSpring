@@ -163,11 +163,19 @@ public class BistroApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(request.getMain().isEmpty() || request.getMain().equals("")) {
+        if(request.getSiteWide().isEmpty() || request.getSiteWide().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_WIDE);
+        }
+
+        if(request.getSiteMiddle().isEmpty() || request.getSiteMiddle().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_MIDDLE);
+        }
+
+        if(request.getCategoryMain().isEmpty() || request.getCategoryMain().equals("")) {
             return new BaseResponse<>(POST_BISTRO_NO_MAIN);
         }
 
-        List<Bistro> bistroMainList = bistroService.getBistroMain(request.getMain());
+        List<Bistro> bistroMainList = bistroService.getBistroMain(request.getSiteWide(), request.getSiteMiddle(), request.getCategoryMain());
         List<Bistro> bookmark = bookmarkService.findBookmark(Long.valueOf(userId));
 
         List<MainListDto> listDtos = new ArrayList<>();
@@ -197,15 +205,24 @@ public class BistroApiController {
             return new BaseResponse<>(INVALID_JWT);
         }
 
-        if(request.getMain().isEmpty() || request.getMain().equals("")) {
-            return new BaseResponse<>(POST_BISTRO_NO_MAIN);
+        if(request.getSiteWide().isEmpty() || request.getSiteWide().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_WIDE);
         }
 
-        if(request.getMiddle().isEmpty() || request.getMiddle().equals("")) {
+        if(request.getSiteMiddle().isEmpty() || request.getSiteMiddle().equals("")) {
             return new BaseResponse<>(POST_BISTRO_NO_MIDDLE);
         }
 
-        List<Bistro> bistroMainList = bistroService.getBistroMiddle(request.getMain(), request.getMiddle());
+        if(request.getCategoryMain().isEmpty() || request.getCategoryMain().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_NO_MAIN);
+        }
+
+        if(request.getCategoryMiddle().isEmpty() || request.getCategoryMiddle().equals("")) {
+            return new BaseResponse<>(POST_BISTRO_CATEGORY_NO_MIDDLE);
+        }
+
+        List<Bistro> bistroMainList = bistroService.getBistroMiddle(request.getSiteWide(), request.getSiteMiddle(),
+                request.getCategoryMain(), request.getCategoryMiddle());
         List<Bistro> bookmark = bookmarkService.findBookmark(Long.valueOf(userId));
 
         List<MainListDto> listDtos = new ArrayList<>();

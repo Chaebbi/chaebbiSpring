@@ -100,18 +100,24 @@ public class BistroRepository {
                 .getSingleResult()
                 .getUrl();
     }
-    public List<Bistro> getBistroMain(String main) {
-        return em.createQuery("select b from Bistro b join BistroCategory bc on b.id = bc.bistro_id join MainCategory mc on mc.id = bc.main_id where mc.type = :main", Bistro.class)
-                .setParameter("main", main)
+    public List<Bistro> getBistroMain(String siteWide, String siteMiddle, String categoryMain) {
+        return em.createQuery("select b from Bistro b join BistroCategory bc on b.id = bc.bistro_id join MainCategory mc on mc.id = bc.main_id " +
+                        "where mc.type = :categoryMain and b.wide = :siteWide and b.middle = :siteMiddle", Bistro.class)
+                .setParameter("categoryMain", categoryMain)
+                .setParameter("siteWide", siteWide)
+                .setParameter("siteMiddle", siteMiddle)
                 .getResultList();
 
     }
 
-    public List<Bistro> getBistroMiddle(String main, String middle) {
+    public List<Bistro> getBistroMiddle(String siteWide, String siteMiddle, String categoryMain, String categoryMiddle) {
         return em.createQuery("select b from Bistro b join BistroCategory bc on b.id = bc.bistro_id join MainCategory mc on mc.id = bc.main_id " +
-                "join MiddleCategory mdc on mdc.id = bc.middle_id where mc.type = :main and mdc.type = :middle")
-                .setParameter("main", main)
-                .setParameter("middle", middle)
+                "join MiddleCategory mdc on mdc.id = bc.middle_id where mc.type = :categoryMain and mdc.type = :categoryMiddle and " +
+                        "b.wide = :siteWide and b.middle = :siteMiddle")
+                .setParameter("categoryMain", categoryMain)
+                .setParameter("categoryMiddle", categoryMiddle)
+                .setParameter("siteWide", siteWide)
+                .setParameter("siteMiddle", siteMiddle)
                 .getResultList();
     }
 }

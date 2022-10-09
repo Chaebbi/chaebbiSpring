@@ -43,11 +43,11 @@ public class BistroService {
         return bistroRepository.getUrl(bistroId);
     }
 
-    public List<Bistro> getBistroMain(String main) {
-        return bistroRepository.getBistroMain(main);
+    public List<Bistro> getBistroMain(String siteWide, String siteMiddle, String categoryMain) {
+        return bistroRepository.getBistroMain(siteWide, siteMiddle, categoryMain);
     }
 
-    public List<Bistro> getBistroMiddle(String main, String middle) {
-        return bistroRepository.getBistroMiddle(main, middle);
+    public List<Bistro> getBistroMiddle(String siteWide, String siteMiddle, String categoryMain, String categoryMiddle) {
+        return bistroRepository.getBistroMiddle(siteWide, siteMiddle, categoryMain, categoryMiddle);
     }
 }
