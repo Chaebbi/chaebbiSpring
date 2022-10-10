@@ -94,7 +94,7 @@ public class BistroApiController {
             } else {
                 isBookmark = 0;
             }
-            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getUrl()));
+            listDtos.add(new CategoryListDto(bistro.getId().intValue(), isBookmark, bistro.getCategory(), bistro.getName(), bistro.getRAddr(), bistro.getLAddr(), bistro.getTel(), bistro.getLa(), bistro.getLo(), bistro.getUrl()));
         }
 
 
