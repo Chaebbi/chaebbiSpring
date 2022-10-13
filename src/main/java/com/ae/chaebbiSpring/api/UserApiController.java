@@ -217,7 +217,8 @@ public class UserApiController {
         return new BaseResponse<>(ResponseEntity.ok().build());
     }
 
-    // 3-3
+    // 3-4
+    @Operation(summary = "[DELETE] 3-4 회원 탈퇴", description = "회원 탈퇴 API")
     @DeleteMapping("/api/userdelete")
     public BaseResponse<String> deleteUser(@AuthenticationPrincipal String userId) {
         if(userId == null) {
@@ -232,7 +233,8 @@ public class UserApiController {
         return new BaseResponse<>("회원 탈퇴 되었습니다.");
     }
 
-    // 3-4
+    // 11-4
+    @Operation(summary = "[POST] 11-4 닉네임 중복 확인", description = "닉네임 중복 확인 API")
     @PostMapping("/api/user-nickname")
     public BaseResponse<UserNicknameResponseDto> nicknameCheck(@RequestBody UserNicknameRequestDto request) {
         if(request.getNickname().isEmpty() || request.getNickname().equals("")) {
