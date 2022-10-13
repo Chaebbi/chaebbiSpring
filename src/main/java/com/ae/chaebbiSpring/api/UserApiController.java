@@ -220,9 +220,6 @@ public class UserApiController {
     // 3-3
     @DeleteMapping("/api/userdelete")
     public BaseResponse<String> deleteUser(@AuthenticationPrincipal String userId) {
-        if(userId.equals("INVALID JWT")){
-            return new BaseResponse<>(INVALID_JWT);
-        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -237,18 +234,7 @@ public class UserApiController {
 
     // 3-4
     @PostMapping("/api/user-nickname")
-    public BaseResponse<UserNicknameResponseDto> nicknameCheck(@AuthenticationPrincipal String userId, @RequestBody UserNicknameRequestDto request) {
-        if(userId.equals("INVALID JWT")){
-            return new BaseResponse<>(INVALID_JWT);
-        }
-        if(userId == null) {
-            return new BaseResponse<>(EMPTY_JWT);
-        }
-        User user = userService.findOne(Long.valueOf(userId));
-        if(user == null) {
-            return new BaseResponse<>(INVALID_JWT);
-        }
-
+    public BaseResponse<UserNicknameResponseDto> nicknameCheck(@RequestBody UserNicknameRequestDto request) {
         if(request.getNickname().isEmpty() || request.getNickname().equals("")) {
             return new BaseResponse<>(POST_EMPTY_NICKNAME);
         }
