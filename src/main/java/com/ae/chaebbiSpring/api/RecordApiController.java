@@ -357,19 +357,20 @@ public class RecordApiController {
     }
 
     // 1-5
+    @Operation(summary = "[POST] 1-5 식단 수정", description = "식단 수정 API")
     @PostMapping("/api/record-update")
     public BaseResponse<RecordResponseDto> updateResponse(@AuthenticationPrincipal String userId,
-                                                          @RequestParam (value = "recordId", required = true) int recordId,
-                                                          @RequestParam (value = "image", required = false) MultipartFile multipartFile,
-                                                          @RequestParam (value = "text", required = true) String text,
-                                                          @RequestParam (value = "calory", required = false) String calory,
-                                                          @RequestParam (value = "carb", required = false) String carb,
-                                                          @RequestParam (value = "protein", required = false) String protein,
-                                                          @RequestParam (value = "fat", required = false) String fat,
-                                                          @RequestParam (value = "rdate", required = true) String rdate,
-                                                          @RequestParam (value = "rtime", required = true) String rtime,
-                                                          @RequestParam (value = "amount", required = false) Double amount,
-                                                          @RequestParam (value = "meal", required = true) int meal
+                                                          @Schema(description = "식단 기록 id", example = "346", nullable = false, type = "int") @RequestParam (value = "recordId", required = true) int recordId,
+                                                          @Schema(description = "이미지 파일", nullable = true, type = "MultipartFile") @RequestParam (value = "image", required = false) MultipartFile multipartFile,
+                                                          @Schema(description = "식단 메뉴", example = "김치찌개", nullable = false, type = "String") @RequestParam (value = "text", required = true) String text,
+                                                          @Schema(description = "식단 칼로리", example = "153", nullable = true, type = "String") @RequestParam (value = "calory", required = false) String calory,
+                                                          @Schema(description = "식단 탄수화물", example = "13", nullable = true, type = "String") @RequestParam (value = "carb", required = false) String carb,
+                                                          @Schema(description = "식단 단백질", example = "23", nullable = true, type = "String") @RequestParam (value = "protein", required = false) String protein,
+                                                          @Schema(description = "식단 지방", example = "4", nullable = true, type = "String") @RequestParam (value = "fat", required = false) String fat,
+                                                          @Pattern(regexp = "\\d{4}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01]).") @Schema(description = "식단 날짜", example = "2022.10.13.", nullable = false, type = "String") @RequestParam (value = "rdate", required = true) String rdate,
+                                                          @Pattern(regexp = "(0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9])") @Schema(description = "식단 시간", example = "08:00", nullable = false, type = "String") @RequestParam (value = "rtime", required = true) String rtime,
+                                                          @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
+                                                          @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
     ) throws IOException {
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
@@ -483,6 +484,7 @@ public class RecordApiController {
     }
 
     // 1-6
+    @Operation(summary = "[POST] 1-6 식단 삭제", description = "식단 삭제 API")
     @DeleteMapping("/api/record")
     public BaseResponse<String> deleteRecord(@AuthenticationPrincipal String userId, @RequestBody @Valid RecordDeleteRequestDto request) {
         if(userId == null) {
