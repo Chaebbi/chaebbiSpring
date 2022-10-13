@@ -3,10 +3,12 @@ package com.ae.chaebbiSpring.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "일반 로그인 요청 DTO")
 public class GeneralLoginReqDto {

@@ -48,6 +48,10 @@ public class UserService {
         userRepository.update(id, dto);
     }
 
+    public void delete(Long id) {
+        userRepository.delete(id);
+    }
+
     public JoinResponseDto join(CreateUserRequestDto createUserRequestDto) {
         User u = User.createUser(createUserRequestDto);
 
@@ -92,5 +96,9 @@ public class UserService {
         } else {
             throw new BaseException(FAILED_TO_LOGIN);
         }
+    }
+
+    public Long nicknameCheck(String nickname) {
+        return userRepository.nicknameCheck(nickname);
     }
 }

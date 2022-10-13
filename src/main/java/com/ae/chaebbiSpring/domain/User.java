@@ -43,6 +43,7 @@ public class User {
     @Column(name = "recommend_fat")
     private String rfat;
 
+    private String nickname;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")

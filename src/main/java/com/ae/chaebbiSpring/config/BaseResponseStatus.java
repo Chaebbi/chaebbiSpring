@@ -104,6 +104,9 @@ public enum BaseResponseStatus {
     POST_EMPTY_NO_RECORD_ID(false, 2159, "recordId를 입력해주세요. "),
     POST_INVALID_RECORD(false, 2160, "기록한 식단이 없습니다. "),
 
+    // [POST] /user-nickname
+    POST_EMPTY_NICKNAME(false, 2161, "닉네임을 입력해주세요. "),
+
     /**
      * 3000 : Response오류
      */

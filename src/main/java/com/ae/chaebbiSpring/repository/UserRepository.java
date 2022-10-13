@@ -87,6 +87,15 @@ public class UserRepository {
                 .executeUpdate();
     }
 
+    public void delete(Long id) {
+        em.createQuery("delete from Record r where r.user = (select u from User u where u.id = :id)")
+                .setParameter("id", id)
+                .executeUpdate();
+        em.createQuery("delete from User u where u.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
     public Long checkEmailDuplicate(String checkEmailReq) {
         return (Long) em.createQuery("select count(u.id) from User u where u.email = :email")
                 .setParameter("email", checkEmailReq)
@@ -99,5 +108,11 @@ public class UserRepository {
                 .setParameter("email", email)
                 .getResultList();
         return user.stream().findAny();
+    }
+
+    public Long nicknameCheck(String nickname) {
+        return (Long) em.createQuery("select count(u.id) from User u where u.nickname = :nickname")
+                .setParameter("nickname", nickname)
+                .getSingleResult();
     }
 }
