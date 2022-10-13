@@ -217,6 +217,36 @@ public class UserApiController {
         return new BaseResponse<>(ResponseEntity.ok().build());
     }
 
+    // 3-3
+    @DeleteMapping("/api/userdelete")
+    public BaseResponse<String> deleteUser(@AuthenticationPrincipal String userId) {
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
+        User user = userService.findOne(Long.valueOf(userId));
+        if(user == null) {
+            return new BaseResponse<>(INVALID_JWT);
+        }
+
+        userService.delete(Long.valueOf(userId));
+        return new BaseResponse<>("회원 탈퇴 되었습니다.");
+    }
+
+    // 3-4
+    @PostMapping("/api/user-nickname")
+    public BaseResponse<UserNicknameResponseDto> nicknameCheck(@RequestBody UserNicknameRequestDto request) {
+        if(request.getNickname().isEmpty() || request.getNickname().equals("")) {
+            return new BaseResponse<>(POST_EMPTY_NICKNAME);
+        }
+
+        Long isExist = userService.nicknameCheck(request.getNickname().trim());
+        if(isExist > 0) {
+            return new BaseResponse<>(new UserNicknameResponseDto(true, "이미 존재하는 닉네임입니다."));
+        } else {
+            return new BaseResponse<>(new UserNicknameResponseDto(false, "사용해도 되는 닉네임입니다."));
+        }
+    }
+
     // 11-1 : [POST] 회원가입 api
     @Operation(summary = "[POST] 11-1 일반 회원가입", description = "일반 회원 회원가입 API")
     @PostMapping("api/create-user")
