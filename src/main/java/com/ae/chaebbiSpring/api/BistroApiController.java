@@ -40,6 +40,9 @@ public class BistroApiController {
     @Operation(summary = "[POST] 6-1 음식점 중분류 조회", description = "음식점 중분류 조회 API ")
     @PostMapping("/api/bistromiddle")
     public BaseResponse<ResultResponse> middle(@AuthenticationPrincipal String userId, @RequestBody @Valid MiddleRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -65,6 +68,9 @@ public class BistroApiController {
     @Operation(summary = "[POST] 6-2 대,중분류 별 음식점 조회", description = "음식점 대분류, 중분류별 조회 API ")
     @PostMapping("/api/categories")
     public BaseResponse<CategoryListResponseDto> categories(@AuthenticationPrincipal String userId, @RequestBody @Valid CategoryRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -126,6 +132,9 @@ public class BistroApiController {
 
     @GetMapping("api/bistrowide")
     public BaseResponse<ResultResponse> middle(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -155,6 +164,9 @@ public class BistroApiController {
     // 6-6
     @PostMapping("/api/bistro-category-main")
     public BaseResponse<List<MainListDto>> getBistroMain(@AuthenticationPrincipal String userId, @RequestBody BistroMainRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -197,6 +209,9 @@ public class BistroApiController {
     // 6-7
     @PostMapping("/api/bistro-category-middle")
     public BaseResponse<List<MainListDto>> getBistroMiddle(@AuthenticationPrincipal String userId, @RequestBody BistroMiddleRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }

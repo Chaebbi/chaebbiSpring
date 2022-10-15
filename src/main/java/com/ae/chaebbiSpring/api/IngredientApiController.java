@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static com.ae.chaebbiSpring.config.BaseResponseStatus.EMPTY_JWT;
+import static com.ae.chaebbiSpring.config.BaseResponseStatus.INVALID_JWT;
 import static java.util.stream.Collectors.toList;
 
 
@@ -28,6 +29,9 @@ public class IngredientApiController {
     @Operation(summary = "[GET] 9-1 음식 재료 검색", description = "음식 추천에서 재료검색 API  ")
     @GetMapping("/api/ingredient")
     public BaseResponse<ResResponse> ingredients(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }

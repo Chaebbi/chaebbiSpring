@@ -91,6 +91,9 @@ public class UserApiController {
     @Operation(summary = "카카오 회원 등록", description = "카카오 회원 등록 API")
     @PostMapping("/api/signup")
     public BaseResponse<ResponseEntity<?>> signup(@AuthenticationPrincipal String userId, @RequestBody SignupRequestDto signupRequestDto) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -157,6 +160,9 @@ public class UserApiController {
     @Operation(summary = "회원 정보 조회", description = "회원 정보 조회 API")
     @GetMapping("/api/userinfo")
     public BaseResponse<UserInfoResponseDto> info(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -171,6 +177,9 @@ public class UserApiController {
     @Operation(summary = "회원 정보 수정", description = "회원 정보 수정 API")
     @PutMapping("/api/userupdate")
     public BaseResponse<ResponseEntity<?>> update(@AuthenticationPrincipal String userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -221,6 +230,9 @@ public class UserApiController {
     @Operation(summary = "[DELETE] 3-4 회원 탈퇴", description = "회원 탈퇴 API")
     @DeleteMapping("/api/userdelete")
     public BaseResponse<String> deleteUser(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }

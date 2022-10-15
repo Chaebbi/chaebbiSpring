@@ -58,6 +58,9 @@ public class RecordApiController {
                                                         @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
                                                         @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
                                              ) throws IOException {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -164,6 +167,9 @@ public class RecordApiController {
     @Operation(summary = "식단 날짜별 조회", description = "식단 날짜별 조회 API(메인 화면 용)")
     @PostMapping("/api/daterecord")
     public BaseResponse<DateRecordResponseDto> dateRecords(@AuthenticationPrincipal String userId, @RequestBody @Valid DateRecordRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -233,6 +239,9 @@ public class RecordApiController {
     @Operation(summary = "식단 상세 조회", description = "식단 상세 조회 API(상세페이지)")
     @PostMapping("api/detailrecord")
     public BaseResponse<ResultResponse> recordResponse(@AuthenticationPrincipal String userId, @RequestBody @Valid DetailRecordRequestDto request) throws BaseException {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -265,6 +274,9 @@ public class RecordApiController {
                                                         @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
                                                         @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
     ) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -372,6 +384,9 @@ public class RecordApiController {
                                                           @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
                                                           @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
     ) throws IOException {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -487,6 +502,9 @@ public class RecordApiController {
     @Operation(summary = "[POST] 1-6 식단 삭제", description = "식단 삭제 API")
     @DeleteMapping("/api/record")
     public BaseResponse<String> deleteRecord(@AuthenticationPrincipal String userId, @RequestBody @Valid RecordDeleteRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
