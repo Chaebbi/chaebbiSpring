@@ -43,6 +43,9 @@ public class BookmarkApiController {
     @PostMapping("api/bookmark")
     public BaseResponse<CreateBookmarkResponseDto> createBookmarkResponse(@AuthenticationPrincipal String userId,
                                                                           @Parameter  @RequestBody @Valid BookmarkRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -94,6 +97,9 @@ public class BookmarkApiController {
     @DeleteMapping("api/del/bookmark")
     public BaseResponse<CreateBookmarkResponseDto> deleteBookmark(@AuthenticationPrincipal String userId,
                               @RequestBody @Valid BookmarkRequestDto request){
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }

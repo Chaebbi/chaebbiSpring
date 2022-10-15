@@ -38,6 +38,9 @@ public class FoodApiController {
     @Operation(summary = "식단 검색", description = "모든 음식 API")
     @GetMapping("/api/foodname")
     public BaseResponse<ResResponse> foods(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -57,6 +60,9 @@ public class FoodApiController {
     @Operation(summary = "음식 1개 검색", description = "음식 인덱스 API")
     @PostMapping("/api/food")
     public BaseResponse<ResResponse> foodResponse(@AuthenticationPrincipal String userId, @RequestBody @Valid CreateFoodRequest request){
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }

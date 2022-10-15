@@ -38,6 +38,9 @@ public class AnalysisApiController {
     @Operation(summary = "식단 분석", description = "식단 분석 API")
     @GetMapping("api/analysis")
     public BaseResponse<AnalysisResponseDto> analysisResponse(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
