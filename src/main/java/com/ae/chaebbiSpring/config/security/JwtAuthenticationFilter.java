@@ -41,6 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (token != null && !token.equalsIgnoreCase("null")) {
                 // userId 가져오기. 위조된 경우 예외 처리된다.
                 String userId = jwtProvider.validateAndGetUserId(token);
+                if(userId.equals("INVALID JWT")) {
+                    log.info("*** This token is invlid*** ");
+                }
                 log.info("Authenticated user ID : " + userId );
                 // 인증 완료. SecurityContextHolder에 등록해야 인증된 사용자라고 생각한다.
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
