@@ -65,8 +65,11 @@ public class BookmarkApiController {
 
     //7-2
     @Operation(summary = "[GET] 7-2 즐겨찾기 조회 ", description = "즐겨찾기 북마크 조회 API ")
-    @GetMapping("api/bookmarklist")
+    @GetMapping("/api/bookmarklist")
     public BaseResponse<ResResponse> bookmarkList(@AuthenticationPrincipal String userId) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
         if(userId == null) {
             return new BaseResponse<>(EMPTY_JWT);
         }
@@ -74,12 +77,9 @@ public class BookmarkApiController {
         List<RestaurantResponseDto> restaurantDtos = new ArrayList<>();
 
         for(Bistro bistro: restaurant) {
-            //restaurantDtos.add(new RestaurantResponseDto(bistro.getId(), bistro.getCategory(), bistro.getName(),
-              //      bistro.getRAddr(), bistro.getLAddr(),
-                //    bistro.getTel(), bistro.getLa(), bistro.getLo()));
             restaurantDtos.add(new RestaurantResponseDto(bistro.getId(), bistro.getName(),
                     bistro.getRAddr(), bistro.getLAddr(),
-                    bistro.getTel(), bistro.getLa(), bistro.getLo()));
+                    bistro.getTel(), bistro.getLa(), bistro.getLo(), bistro.getUrl()));
         }
         if(restaurant.size() > 0){
             return new BaseResponse<>(new ResResponse(restaurantDtos.size(), restaurantDtos));
