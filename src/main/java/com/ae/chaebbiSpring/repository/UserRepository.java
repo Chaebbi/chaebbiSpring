@@ -88,6 +88,9 @@ public class UserRepository {
     }
 
     public void delete(Long id) {
+        em.createQuery("delete from Bookmark b where b.user = (select u from User u where u.id = :id)")
+                .setParameter("id", id)
+                .executeUpdate();
         em.createQuery("delete from Record r where r.user = (select u from User u where u.id = :id)")
                 .setParameter("id", id)
                 .executeUpdate();
