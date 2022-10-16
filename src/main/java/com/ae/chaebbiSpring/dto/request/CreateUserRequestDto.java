@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "일반 회원가입 요청 DTO")
 public class CreateUserRequestDto {
@@ -18,6 +19,8 @@ public class CreateUserRequestDto {
     private String pwd;
     @Schema(description = "회원가입하려는 회원의 이름")
     private String name;
+    @Schema(description = "회원가입하려는 회원의 닉네임")
+    private String nickname;
     @Schema(description = "회원가입하려는 회원의 성별 0:남자 1:여자")
     private int gender;
     @Schema(description = "회원가입하려는 회원의 나이")

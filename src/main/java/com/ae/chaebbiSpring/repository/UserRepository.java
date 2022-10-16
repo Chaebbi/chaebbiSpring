@@ -37,6 +37,7 @@ public class UserRepository {
         int age = Integer.parseInt(dto.getAge());
         int gender = Integer.parseInt(dto.getGender());
         String name = dto.getName();
+        String nickname = dto.getNickname();
         String weight = dto.getWeight();
         String height = dto.getHeight();
         int activity = Integer.parseInt(dto.getActivity());
@@ -45,11 +46,12 @@ public class UserRepository {
         CalcRequestDto calcRequestDto = new CalcRequestDto(dto.getName(), age, gender, dto.getHeight(), dto.getWeight(), activity);
         CalcNutrientDtos calcNutrientDtos = CalcNutrients.calcNutrientDtos(calcRequestDto);
 
-        em.createQuery("update User u set u.name = :name, u.age = :age, u.gender = :gender, u.height = :height, u.weight = :weight," +
+        em.createQuery("update User u set u.name = :name, u.nickname = :nickname, u.age = :age, u.gender = :gender, u.height = :height, u.weight = :weight," +
                         "u.date = :date, u.icon = :icon, u.activity = :activity, u.rcal = :calory, u.rcarb = :carb, " +
                         "u.rpro = :pro, u.rfat = :fat " +
                 "where u.id = :id")
                 .setParameter("name", name)
+                .setParameter("nickname", nickname)
                 .setParameter("age", age)
                 .setParameter("gender", gender)
                 .setParameter("height", height)
