@@ -110,6 +110,14 @@ public class UserApiController {
             return new BaseResponse<>(POST_USER_LONG_NAME);
         }
 
+        if(signupRequestDto.getNickname().isEmpty() || signupRequestDto.getNickname().equals("")) {
+            return new BaseResponse<>(POST_EMPTY_NICKNAME);
+        }
+
+        if(signupRequestDto.getNickname().length() > 45) {
+            return new BaseResponse<>(POST_LONG_NICKNAME);
+        }
+
         if(signupRequestDto.getAge().isEmpty() || signupRequestDto.getAge().equals("")) {
             return new BaseResponse<>(POST_USER_NO_AGE);
         }
@@ -170,7 +178,7 @@ public class UserApiController {
         if (user == null) {
             return new BaseResponse<>(INVALID_JWT);
         }
-        return new BaseResponse<>(new UserInfoResponseDto(user.getName(), user.getGender(), user.getAge(), user.getHeight(), user.getWeight(), user.getIcon(), user.getActivity()));
+        return new BaseResponse<>(new UserInfoResponseDto(user.getName(), user.getNickname(), user.getGender(), user.getAge(), user.getHeight(), user.getWeight(), user.getIcon(), user.getActivity()));
     }
 
     // 3-2
@@ -283,6 +291,14 @@ public class UserApiController {
         }
         if(createUserRequestDto.getName().length() > 45) {
             return new BaseResponse<>(POST_USER_LONG_NAME);
+        }
+
+        if(createUserRequestDto.getNickname().isEmpty() || createUserRequestDto.getNickname().equals("")) {
+            return new BaseResponse<>(POST_EMPTY_NICKNAME);
+        }
+
+        if(createUserRequestDto.getNickname().length() > 45) {
+            return new BaseResponse<>(POST_LONG_NICKNAME);
         }
 
         if(createUserRequestDto.getAge() < 1) {

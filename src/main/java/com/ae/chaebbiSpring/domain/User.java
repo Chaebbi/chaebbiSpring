@@ -60,6 +60,7 @@ public class User {
         user.setEmail(createUserRequestDto.getEmail());
         user.setPwd(createUserRequestDto.getPwd());
         user.setName(createUserRequestDto.getName());
+        user.setNickname(createUserRequestDto.getNickname());
         user.setGender(createUserRequestDto.getGender());
         user.setAge(createUserRequestDto.getAge());
         user.setHeight(createUserRequestDto.getHeight());

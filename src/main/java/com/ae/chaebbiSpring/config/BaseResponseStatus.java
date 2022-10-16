@@ -80,6 +80,7 @@ public enum BaseResponseStatus {
     POST_USER_MINUS_WEIGHT(false, 2138, "몸무게가 0보다 작습니다."),
     POST_USER_NO_ACTIVITY(false, 2139, "활동 점수를 입력해주세요."),
     POST_USER_INVALID_ACTIVITY(false, 2140, "활동 점수가 유효하지 않습니다."),
+    POST_LONG_NICKNAME(false, 2162, "닉네임이 45자보다 깁니다."),
 
     // [POST] /login
     POST_USER_NO_TOKEN(false, 2141, "accessToken을 입력해주세요."),

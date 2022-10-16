@@ -10,6 +10,8 @@ import lombok.Data;
 public class UserInfoResponseDto {
     @Schema(name = "name", description = "사용자 이름", nullable = true, example = "홍길동", type = "String")
     private String name;
+    @Schema(name = "nickname", description = "사용자 닉네임", nullable = true, example = "길동이", type = "String")
+    private String nickname;
     @Schema(name = "gender", description = "사용자 성별 (0: 남성, 1: 여성)", nullable = true, example = "0", type = "int")
     private int gender;
     @Schema(name = "age", description = "사용자 나이", nullable = true, example = "25", type = "int")
