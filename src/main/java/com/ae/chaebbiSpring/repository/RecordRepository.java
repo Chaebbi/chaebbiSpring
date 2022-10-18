@@ -67,7 +67,7 @@ public class RecordRepository {
 
     //7개의 기록된 날짜의 날짜별 총열량, 총영양소
     public List<DateAnalysisDto> analysisDate(Long id) {
-        String sql = "SELECT r.record_date, SUM(r.cal), SUM(r.carb), SUM(r.protein), SUM(r.fat)" +
+        String sql = "SELECT r.record_date, SUM(r.food_amount), SUM(r.cal), SUM(r.carb), SUM(r.protein), SUM(r.fat)" +
                 " FROM record r JOIN user u ON r.user_user_id = u.user_id WHERE r.user_user_id = :user_id" +
                 " and r.record_date != :date" +
                 " GROUP BY r.record_date ORDER BY r.record_date DESC LIMIT 7";
@@ -79,11 +79,12 @@ public class RecordRepository {
         List<DateAnalysisDto> dateAnalysisDtos = new ArrayList<>();
         for(Object[] row : resultList){
             String date = (String)row[0];
-            Double sumCal = (Double)row[1];
-            Double sumCarb = (Double)row[2];
-            Double sumPro = (Double)row[3];
-            Double sumFat = (Double)row[4];
-            dateAnalysisDtos.add(new DateAnalysisDto(date, sumCal, sumCarb, sumPro, sumFat));
+            Double sumAmount = (Double)row[1];
+            Double sumCal = (Double)row[2];
+            Double sumCarb = (Double)row[3];
+            Double sumPro = (Double)row[4];
+            Double sumFat = (Double)row[5];
+            dateAnalysisDtos.add(new DateAnalysisDto(date, sumAmount, sumCal, sumCarb, sumPro, sumFat));
         }
         return dateAnalysisDtos;
     }

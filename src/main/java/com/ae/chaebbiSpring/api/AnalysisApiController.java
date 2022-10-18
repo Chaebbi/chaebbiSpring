@@ -50,7 +50,7 @@ public class AnalysisApiController {
         }
 
         List<DateAnalysisDto> findWeekRecords = analysisService.findRecords(Long.valueOf(userId));
-        return new BaseResponse<>(analysisService.weekAnalysis(findWeekRecords));
+        return new BaseResponse<>(analysisService.weekAnalysis(findWeekRecords, Long.valueOf(userId)));
 
     }
 
