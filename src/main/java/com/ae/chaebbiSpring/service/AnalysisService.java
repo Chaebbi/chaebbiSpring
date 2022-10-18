@@ -1,11 +1,14 @@
 package com.ae.chaebbiSpring.service;
 
 import com.ae.chaebbiSpring.domain.Problem;
+import com.ae.chaebbiSpring.domain.Suggestion;
 import com.ae.chaebbiSpring.dto.DateAnalysisDto;
 import com.ae.chaebbiSpring.dto.ProblemsDto;
+import com.ae.chaebbiSpring.dto.SuggestionsDto;
 import com.ae.chaebbiSpring.dto.response.AnalysisDto;
 import com.ae.chaebbiSpring.dto.response.AnalysisResponseDto;
 import com.ae.chaebbiSpring.repository.RecordRepository;
+import com.ae.chaebbiSpring.repository.SuggestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnalysisService {
     private final RecordRepository recordRepository;
+    private final SuggestionRepository suggestionRepository;
     private final UserService userService;
     int highCal, lowCal, highCarb, lowCarb, highPro, lowPro, highFat, lowFat =0;
 
@@ -35,6 +39,8 @@ public class AnalysisService {
             List<ProblemsDto> problemsList = problemCheck(weekRecords, userId);
 
             // 문제 식이 습관의 제안 리스트
+            List<SuggestionsDto> suggestionList = solSuggest(problemsList);
+
 
             status = 1;
             List<AnalysisDto> collect = new ArrayList<>();
@@ -49,10 +55,20 @@ public class AnalysisService {
             ratioCarb = totalCarb * 100 / sum;
             ratioPro = totalPro * 100 / sum;
             ratioFat = totalFat * 100 / sum;
-            return new AnalysisResponseDto(status, ratioCarb, ratioPro, ratioFat , totalCarb, totalPro, totalFat, collect);
+            return new AnalysisResponseDto(status, ratioCarb, ratioPro, ratioFat , totalCarb, totalPro, totalFat, problemsList, suggestionList, collect);
         }
         //비정상 로직 status = 0
-        else { return new AnalysisResponseDto(status,ratioCarb, ratioPro, ratioFat , totalCarb, totalPro, totalFat, null);}
+        else { return new AnalysisResponseDto(status, ratioCarb, ratioPro, ratioFat , totalCarb, totalPro, totalFat, null, null, null);}
+    }
+
+    private List<SuggestionsDto> solSuggest(List<ProblemsDto> problemsList) {
+        List<SuggestionsDto> suggestionList = new ArrayList<>();
+
+        for(ProblemsDto problemsDto : problemsList) {
+            List<Suggestion> suggestions = suggestionRepository.getSuggestions(Long.valueOf(problemsDto.getProblemId()));
+            for(Suggestion suggestion : suggestions) suggestionList.add(new SuggestionsDto(suggestion.getProblemId(), suggestion.getFoodUrl(), suggestion.getFoodName()));
+        }
+        return suggestionList;
     }
 
     public List<ProblemsDto> problemCheck(List<DateAnalysisDto> weekRecords, Long userId) {
