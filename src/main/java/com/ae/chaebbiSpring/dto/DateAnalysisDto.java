@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DateAnalysisDto {
     private String date;
+    private Double sumAmount;
     private Double sumCal;
     private Double sumCarb;
     private Double sumPro;

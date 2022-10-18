@@ -1,5 +1,7 @@
 package com.ae.chaebbiSpring.dto.response;
 
+import com.ae.chaebbiSpring.dto.ProblemsDto;
+import com.ae.chaebbiSpring.dto.SuggestionsDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +28,10 @@ public class AnalysisResponseDto {
     private int totalPro;
     @Schema(name = "totalFat", description = "7일간 식단의 총 섭취 지방", nullable = true, example = "216", type = "int")
     private int totalFat;
+    @Schema(name ="analysisProblems", description = "사용자의 7일간 문제 식이 리스트", nullable = true)
+    private List<ProblemsDto> problemsDtoList;
+    @Schema(name = "suggestions", description = "사용자 문제 식단에 대한 제안 음식리스트", nullable = true )
+    private List<SuggestionsDto> suggestionsDtoList;
     @Schema(name = "analysisDtos", description = "날짜별 총 섭취 칼로리", nullable = true)
     private List<AnalysisDto> analysisDtos;
 }
