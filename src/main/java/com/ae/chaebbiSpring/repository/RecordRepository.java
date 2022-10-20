@@ -20,12 +20,11 @@ public class RecordRepository {
 
     public void save(Record record) { em.persist(record); }
 
-    public Long update(Long recordId, String imgUrl, String text, String date, String calory, String carb, String protein, String fat,
+    public Long update(Long recordId, String text, String date, String calory, String carb, String protein, String fat,
                        String rdate, String rtime, double amount, int meal, User user) {
-        em.createQuery("update Record r set r.image_url = :imgUrl, r.text = :text, r.server_date = :date, r.cal = :calory, " +
+        em.createQuery("update Record r set r.text = :text, r.server_date = :date, r.cal = :calory, " +
                         "r.carb = :carb, r.protein = :protein, r.fat = :fat, r.date = :rdate, r.time = :rtime, r.amount = :amount, r.meal = :meal " +
                         "where r.id = :recordId and r.user = (select u from User u where u.id = :id)")
-                .setParameter("imgUrl", imgUrl)
                 .setParameter("text", text)
                 .setParameter("date", date)
                 .setParameter("calory", calory)
@@ -42,11 +41,28 @@ public class RecordRepository {
         return recordId;
     }
 
+    public void updateImage(Long recordId, String imgUrl, User user) {
+        em.createQuery("update Record r set r.image_url = :imgUrl " +
+                "where r.id = :recordId and r.user = (select u from User u where u.id = :id)")
+                .setParameter("imgUrl", imgUrl)
+                .setParameter("recordId", recordId)
+                .setParameter("id", user.getId())
+                .executeUpdate();
+    }
+
     public void delete(Long userId, Long recordId) {
         em.createQuery("delete from Record r where r.user = (select u from User u where u.id = :uid) and " +
                         "r.id = :rid")
                 .setParameter("uid", userId)
                 .setParameter("rid", recordId)
+                .executeUpdate();
+    }
+
+    public void deleteImage(Long userId, Long recordId) {
+        em.createQuery("update Record r set r.image_url = null " +
+                "where r.id = :rid and r.user = (select u from User u where u.id = :uid)")
+                .setParameter("rid", recordId)
+                .setParameter("uid", userId)
                 .executeUpdate();
     }
 

@@ -373,7 +373,6 @@ public class RecordApiController {
     @PostMapping("/api/record-update")
     public BaseResponse<RecordResponseDto> updateResponse(@AuthenticationPrincipal String userId,
                                                           @Schema(description = "식단 기록 id", example = "346", nullable = false, type = "int") @RequestParam (value = "recordId", required = true) int recordId,
-                                                          @Schema(description = "이미지 파일", nullable = true, type = "MultipartFile") @RequestParam (value = "image", required = false) MultipartFile multipartFile,
                                                           @Schema(description = "식단 메뉴", example = "김치찌개", nullable = false, type = "String") @RequestParam (value = "text", required = true) String text,
                                                           @Schema(description = "식단 칼로리", example = "153", nullable = true, type = "String") @RequestParam (value = "calory", required = false) String calory,
                                                           @Schema(description = "식단 탄수화물", example = "13", nullable = true, type = "String") @RequestParam (value = "carb", required = false) String carb,
@@ -383,7 +382,7 @@ public class RecordApiController {
                                                           @Pattern(regexp = "(0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9])") @Schema(description = "식단 시간", example = "08:00", nullable = false, type = "String") @RequestParam (value = "rtime", required = true) String rtime,
                                                           @Schema(description = "식사 양(단위:g)", example = "300", type = "Double", nullable = true) @RequestParam (value = "amount", required = false) Double amount,
                                                           @Pattern (regexp="[0-2]") @Schema(description = "식사 끼니(아침, 점심, 저녁)", example = "0", nullable = false, type = "Int") @RequestParam (value = "meal", required = true) int meal
-    ) throws IOException {
+    ) {
         if(userId.equals("INVALID JWT")){
             return new BaseResponse<>(INVALID_JWT);
         }
@@ -405,13 +404,6 @@ public class RecordApiController {
         }
 
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd."));
-        //S3 Bucket upload
-        String imgUrl =  "empty";
-        if(multipartFile != null) {
-            if(!multipartFile.isEmpty()) {
-                imgUrl = s3Uploader.upload(multipartFile, "static");
-            }
-        }
 
         if(text.isEmpty() || text.equals("")) {
             return new BaseResponse<>(POST_RECORD_NO_TEXT);
@@ -486,20 +478,15 @@ public class RecordApiController {
             return new BaseResponse<>(POST_RECORD_INVALID_MEAL);
         }
 
-        Long id;
-        if(multipartFile == null || multipartFile.isEmpty()) {
-            id = recordService.update(Long.valueOf(recordId), null, text, date, calory, carb, protein, fat,
-                    rdate, rtime, amount, meal, user);
-        } else {
-            id = recordService.update(Long.valueOf(recordId), imgUrl, text, date, calory, carb, protein, fat,
-                    rdate, rtime, amount, meal, user);
-        }
+        Long id = recordService.update(Long.valueOf(recordId), text, date, calory, carb, protein, fat,
+                rdate, rtime, amount, meal, user);
+
 
         return new BaseResponse<>(new RecordResponseDto(id.intValue()));
     }
 
     // 1-6
-    @Operation(summary = "[POST] 1-6 식단 삭제", description = "식단 삭제 API")
+    @Operation(summary = "[DELETE] 1-6 식단 삭제", description = "식단 삭제 API")
     @DeleteMapping("/api/record")
     public BaseResponse<String> deleteRecord(@AuthenticationPrincipal String userId, @RequestBody @Valid RecordDeleteRequestDto request) {
         if(userId.equals("INVALID JWT")){
@@ -524,5 +511,75 @@ public class RecordApiController {
 
         recordService.delete(Long.valueOf(userId), request.getRecordId());
         return new BaseResponse<>("식단 기록이 삭제되었습니다.");
+    }
+
+    // 1-7
+    @Operation(summary = "[POST] 1-7 식단 이미지 수정", description = "식단 이미지 수정 API")
+    @PostMapping("/api/image-update")
+    public BaseResponse<String> updateImage(@AuthenticationPrincipal String userId,
+                                            @Schema(description = "식단 기록 id", example = "1", nullable = false, type = "Long") @RequestParam(value = "recordId", required = true) Long recordId,
+                                            @Schema(description = "이미지 파일", nullable = true, type = "MultipartFile") @RequestParam (value = "image", required = false) MultipartFile multipartFile)
+            throws IOException {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
+        User user = userService.findOne(Long.valueOf(userId));
+        if (user == null) {
+            return new BaseResponse<>(INVALID_JWT);
+        }
+
+        if(String.valueOf(recordId).isEmpty() || String.valueOf(recordId).equals("")) {
+            return new BaseResponse<>(POST_EMPTY_NO_RECORD_ID);
+        }
+        List<Record> record = recordService.findDetailOne(Long.valueOf(userId), Long.valueOf(recordId));
+        if(record.isEmpty()) {
+            return new BaseResponse<>(POST_INVALID_RECORD);
+        }
+
+        //S3 Bucket upload
+        String img_url = "";
+        if(multipartFile != null) {
+            if(!multipartFile.isEmpty()) {
+                img_url = s3Uploader.upload(multipartFile, "static");
+            }
+        }
+
+        if(multipartFile == null || multipartFile.isEmpty()) {
+            return new BaseResponse<>(POST_RECORD_NO_IMAGE);
+        }
+
+        recordService.updateImage(recordId, img_url, user);
+        return new BaseResponse<>("식단 기록 이미지가 수정되었습니다.");
+    }
+
+    // 1-8
+    @Operation(summary = "[DELETE] 1-8 식단 이미지 삭제", description = "식단 이미지 삭제 API")
+    @DeleteMapping("/api/image-delete")
+    public BaseResponse<String> deleteImage(@AuthenticationPrincipal String userId, @RequestBody @Valid RecordDeleteRequestDto request) {
+        if(userId.equals("INVALID JWT")){
+            return new BaseResponse<>(INVALID_JWT);
+        }
+        if(userId == null) {
+            return new BaseResponse<>(EMPTY_JWT);
+        }
+
+        User user = userService.findOne(Long.valueOf(userId));
+        if (user == null) {
+            return new BaseResponse<>(INVALID_JWT);
+        }
+
+        if(String.valueOf(request.getRecordId()).isEmpty() || String.valueOf(request.getRecordId()).equals("")) {
+            return new BaseResponse<>(POST_EMPTY_NO_RECORD_ID);
+        }
+        List<Record> record = recordService.findDetailOne(Long.valueOf(userId), request.getRecordId());
+        if(record.isEmpty()) {
+            return new BaseResponse<>(POST_INVALID_RECORD);
+        }
+
+        recordService.deleteImage(Long.valueOf(userId), request.getRecordId());
+        return new BaseResponse<>("식단 이미지가 삭제되었습니다.");
     }
 }
