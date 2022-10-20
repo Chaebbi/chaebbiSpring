@@ -28,4 +28,6 @@ public class DetailRecordResponseDto {
     private String time;
     @Schema(description = "음식 기록양", example = "300", nullable = true, type = "Double")
     private Double amount;
+    @Schema(description = "끼니", example = "점심", nullable = true)
+    private int meal;
 }
