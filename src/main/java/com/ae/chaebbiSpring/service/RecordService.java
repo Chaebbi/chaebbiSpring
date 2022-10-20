@@ -23,14 +23,23 @@ public class RecordService {
     }
 
     @Transactional
-    public Long update(Long recordId, String imgUrl, String text, String date, String calory, String carb, String protein, String fat,
+    public Long update(Long recordId, String text, String date, String calory, String carb, String protein, String fat,
                        String rdate, String rtime, double amount, int meal, User user) {
-        return recordRepository.update(recordId, imgUrl, text, date, calory, carb, protein, fat,
+        return recordRepository.update(recordId, text, date, calory, carb, protein, fat,
                 rdate, rtime, amount, meal, user);
+    }
+
+    @Transactional
+    public void updateImage(Long recordId, String imgUrl, User user) {
+        recordRepository.updateImage(recordId, imgUrl, user);
     }
 
     public void delete(Long userId, Long recordId) {
         recordRepository.delete(userId, recordId);
+    }
+
+    public void deleteImage(Long userId, Long recordId) {
+        recordRepository.deleteImage(userId, recordId);
     }
 
     public List<Record> findDateRecords(Long id, String date) {
