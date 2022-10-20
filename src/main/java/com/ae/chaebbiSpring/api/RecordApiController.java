@@ -254,7 +254,7 @@ public class RecordApiController {
         List<Record> findDetailRecord = recordService.findDetailOne(Long.valueOf(userId), Long.valueOf(request.getRecord_id()));
         String name = userService.findOne(Long.valueOf(userId)).getName();
         List<DetailRecordResponseDto> collect = findDetailRecord.stream()
-                .map(m -> new DetailRecordResponseDto(name, m.getText(), m.getCal(), m.getCarb(), m.getProtein(), m.getFat(), m.getImage_url(), m.getDate(), m.getTime(), m.getAmount()))
+                .map(m -> new DetailRecordResponseDto(name, m.getText(), m.getCal(), m.getCarb(), m.getProtein(), m.getFat(), m.getImage_url(), m.getDate(), m.getTime(), m.getAmount(), m.getMeal()))
                 .collect(toList());
         return new BaseResponse<>(new ResultResponse(collect));
 
