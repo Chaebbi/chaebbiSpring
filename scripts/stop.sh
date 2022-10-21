@@ -1,7 +1,8 @@
  #!/usr/bin/env bash
 
 PROJECT_ROOT="/var/www/html/spring"
-JAR_FILE="$PROJECT_ROOT/chaebbiSpring.jar"
+JAR_FILE="$PROJECT_ROOT/${PROJECT_NAME}-0.0.1-SNAPSHOT.jar"
+PROJECT_NAME="chaebbiSpring"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
