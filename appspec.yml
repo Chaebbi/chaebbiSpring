@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source:  /
-    destination: /bar/www/html/spring
+    destination: /var/www/html/spring
     overwrite: yes
 
 permissions:
