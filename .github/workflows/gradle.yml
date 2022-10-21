@@ -37,9 +37,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    # (3) gradlew 실행 권한부여
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    
     # (+++) application.properties 생성 
     - name:  make application.properties
       run:
@@ -56,7 +54,15 @@ jobs:
     - name: deliver application.yml
       run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
       shell: bash 
-    
+    # (++++) 
+    - uses: actions/upload-artifact@v2
+      with:
+        name: application.properties
+        path: ./src/main/resources/application.properties
+      
+    # (3) gradlew 실행 권한부여
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
       # (3) Gradle build (Test 제외)    
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
