@@ -23,7 +23,6 @@ public class AnalysisService {
     private final RecordRepository recordRepository;
     private final SuggestionRepository suggestionRepository;
     private final UserService userService;
-    int highCal, lowCal, highCarb, lowCarb, highPro, lowPro, highFat, lowFat =0;
 
 
     public List<DateAnalysisDto> findRecords(Long id) {
@@ -74,6 +73,8 @@ public class AnalysisService {
     public List<ProblemsDto> problemCheck(List<DateAnalysisDto> weekRecords, Long userId) {
         Double rcal = Double.parseDouble(userService.findOne(userId).getRcal());    //권장칼로리
         int weight = Integer.parseInt(userService.findOne(userId).getWeight());     //체중
+        int highCal, lowCal, highCarb, lowCarb, highPro, lowPro, highFat, lowFat;
+        highCal = lowCal = highCarb = lowCarb = highPro = lowPro = highFat = lowFat = 0;
         //문제되는 섭취를 4일 이상했을 시 -> problem
         for(DateAnalysisDto dayRecord : weekRecords) {
             if(dayRecord.getSumCal() >= rcal*1.2) highCal++;     //고칼로리 식이 판단
@@ -96,8 +97,8 @@ public class AnalysisService {
         if(lowCarb >= 4) problemsDtos.add(new ProblemsDto(4, lowCarb));
         if(highPro >= 4) problemsDtos.add(new ProblemsDto(5, highPro));
         if(lowPro >= 4) problemsDtos.add(new ProblemsDto(6, lowPro));
-        if(highFat >= 4) problemsDtos.add(new ProblemsDto(5, highFat));
-        if(lowFat >= 4) problemsDtos.add(new ProblemsDto(6, lowFat));
+        if(highFat >= 4) problemsDtos.add(new ProblemsDto(7, highFat));
+        if(lowFat >= 4) problemsDtos.add(new ProblemsDto(8, lowFat));
 
         return problemsDtos;
 
