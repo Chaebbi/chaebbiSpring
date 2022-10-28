@@ -47,6 +47,14 @@
 
 <br>
 
+## 주요 화면
+
+<p>
+<!--<img src="https://user-images.githubusercontent.com/71651038/198592038-96232b86-9310-4a62-9d19-3c5e4fe9322b.png" width="33%" />-->
+<img src="https://user-images.githubusercontent.com/71651038/198592414-18f62457-d17d-439a-9230-e7053404193b.jpg" width="33%" />
+<img src="https://user-images.githubusercontent.com/71651038/198593401-db43c7f6-5a73-4b45-bfc9-464567ecbb50.jpg" width="33%" />
+</p>
+
 ## 🔗 관련
 ### Team
 |Position|Name|Repository|
