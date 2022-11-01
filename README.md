@@ -59,6 +59,6 @@
 ### Team
 |Position|Name|Repository|
 |:---:|:---:|---|
-|Server|[김민서](https://github.com/rosesua318)|https://github.com/Chaebbi/chaebbiSpring|
+|Server|[김민서](https://www.notion.so/d6d0e962e84942a39a9e527fd602337f)|https://github.com/Chaebbi/chaebbiSpring|
 |Server|[김세현](https://early-tithonia-af2.notion.site/KIM-SEHYEON-8d0186298ecc43a797abb8de0436c15e)|https://github.com/Chaebbi/chaebbiSpring|
 |Web|[이진하](https://github.com/idx123)|https://github.com/Chaebbi/chaebbiReact|
